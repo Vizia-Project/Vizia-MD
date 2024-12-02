@@ -7,13 +7,10 @@ import com.capstone.viziaproject.data.repository.UserRepository
 import com.capstone.viziaproject.data.retrofit.ApiConfig
 
 object Injection {
-    fun provideRepository(context: Context): UserRepository {
+    fun provideUserRepository(context: Context): UserRepository {
         val pref = UserPreference.getInstance(context.dataStore)
         val apiService = ApiConfig.getApiService(pref)
         return UserRepository.getInstance(apiService, pref)
     }
 
-    fun providePreference(context: Context): UserPreference {
-        return UserPreference.getInstance(context.dataStore)
-    }
 }

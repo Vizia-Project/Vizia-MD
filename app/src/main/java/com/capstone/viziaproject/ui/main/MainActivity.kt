@@ -2,6 +2,7 @@ package com.capstone.viziaproject.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -57,7 +58,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.getSession().observe(this) { user ->
-            if (!user.isLogin) {
+            Log.d("cekcek", "User session: token=${user.token}, isLogin=${user.isLogin}")
+            if (user.token.isNotEmpty() && user.isLogin) {
+                Log.d("cekcek", "Formatted token: Bearer ${user.token}")
+//                val token = "Bearer ${user.token}"
+            } else {
                 startActivity(Intent(this, IntroActivity::class.java))
                 finish()
             }

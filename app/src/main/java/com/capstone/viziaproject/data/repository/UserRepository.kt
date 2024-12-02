@@ -22,10 +22,10 @@ class UserRepository private constructor(private val userPreference: UserPrefere
         userPreference.saveSession(user)
     }
 
-    fun register(name: String, email: String, password: String): LiveData<Result<RegisterResponse>> = liveData {
+    fun register(name: String, email: String, password: String, passwordConfirmation: String): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.register(name, email, password)
+            val response = apiService.register(name, email, password, passwordConfirmation)
             emit(Result.Success(response))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()

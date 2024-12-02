@@ -82,6 +82,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
+    <ImageView
+        android:id="@+id/iconEye"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_eye_on"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editTextPassword"
+        app:tint="#B0B0B0" />
+
     <com.capstone.viziaproject.ui.custom.CustomEditText
         android:id="@+id/editTextPassword2"
         android:layout_width="0dp"
@@ -98,6 +109,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <ImageView
+        android:id="@+id/iconEye2"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_eye_on"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editTextPassword2"
+        app:tint="#B0B0B0" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSignup"
@@ -134,5 +156,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
