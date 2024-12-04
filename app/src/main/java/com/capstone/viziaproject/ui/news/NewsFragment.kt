@@ -1,4 +1,4 @@
-package com.capstone.viziaproject.ui.home
+package com.capstone.viziaproject.ui.news
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,29 +9,28 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.viziaproject.R
 import com.capstone.viziaproject.data.response.DataItem
-import com.capstone.viziaproject.databinding.FragmentHomeBinding
+import com.capstone.viziaproject.databinding.FragmentNewsBinding
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.ui.IntroActivity
-import com.capstone.viziaproject.ui.dashboard.DashboardFragment
 import com.capstone.viziaproject.ui.detailNews.DetailNewsActivity
-import com.capstone.viziaproject.ui.login.LoginActivity
-import com.capstone.viziaproject.ui.news.NewsFragment
+import com.capstone.viziaproject.ui.home.HomeAdapter
+import com.capstone.viziaproject.ui.home.HomeViewModel
 
-class HomeFragment : Fragment() {
-    private val viewModel by viewModels<HomeViewModel> {
+class NewsFragment : Fragment() {
+    private val viewModel by viewModels<NewsViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentNewsBinding? = null
     private val binding get() = _binding!!
     private val adapter = HomeAdapter()
     private var isToastShown = false
@@ -49,10 +48,10 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        Log.d("cekcek", "onCreateView called")
+        _binding = FragmentNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,7 +60,7 @@ class HomeFragment : Fragment() {
             Log.d("cekcek", "User session: token=${user.token}, isLogin=${user.isLogin}")
             if (user.token.isNotEmpty() && user.isLogin) {
                 Log.d("cekcek", "Formatted token: Bearer ${user.token}")
-                viewModel.getArticle()
+                viewModel.getAllArticle()
             } else {
                 startActivity(Intent(requireContext(), IntroActivity::class.java))
                 requireActivity().finish()
@@ -70,7 +69,6 @@ class HomeFragment : Fragment() {
         if (isInternetAvailable()) {
             setupRecyclerView()
             setupObservers()
-            setupActions()
             binding.pgError.visibility = View.GONE
             binding.contentGroup.visibility = View.VISIBLE
         } else {
@@ -79,10 +77,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     private fun setupRecyclerView() {
-        binding.rvArtikel.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvArtikel.adapter = adapter
+        binding.rvNews.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvNews.adapter = adapter
         adapter.setOnItemClickCallback(object : HomeAdapter.OnItemClickCallback {
             override fun onItemClicked(data: DataItem) {
                 val intent = Intent(requireContext(), DetailNewsActivity::class.java)
@@ -90,15 +87,6 @@ class HomeFragment : Fragment() {
                 startActivity(intent)
             }
         })
-
-//        viewModel.getSession().observe(viewLifecycleOwner) { user ->
-//            if (!user.isLogin) {
-//                startActivity(Intent(requireContext(), IntroActivity::class.java))
-//                requireActivity().finish()
-//            } else {
-//                viewModel.getArticle()
-//            }
-//        }
     }
 
     private fun setupObservers() {
@@ -120,31 +108,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupActions() {
-        binding.buttonKeluar.setOnClickListener {
-            viewModel.logout()
-            startActivity(Intent(requireContext(), LoginActivity::class.java))
-            requireActivity().finish()
-        }
-        binding.buttonScan.setOnClickListener {
-            val fragment = DashboardFragment()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
-
-        // TOMBOL NEWS untuk navigasi ke NewsFragment
-        binding.buttonNews.setOnClickListener {
-            // Membuat instance NewsFragment
-            val fragment = NewsFragment()
-            // Memulai fragment transaction untuk mengganti fragment
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)  // Ganti dengan kontainer yang sesuai
-                .addToBackStack(null)  // Menambahkan fragment ke back stack
-                .commitAllowingStateLoss()
-        }
-    }
     @RequiresApi(Build.VERSION_CODES.M)
     @Suppress("DEPRECATION")
     override fun onResume() {
@@ -168,11 +131,9 @@ class HomeFragment : Fragment() {
             if (!isInternetAvailable()) {
                 binding.pgError.visibility = View.VISIBLE
                 binding.contentGroup.visibility = View.GONE
-                binding.rvArtikel.visibility = View.GONE
-                binding.quickAccess.visibility = View.GONE
-                binding.newsArtikel.visibility = View.GONE
-                binding.layoutQuick.visibility = View.GONE
-                binding.imageView.visibility = View.GONE
+                binding.rvNews.visibility = View.GONE
+                binding.tvEventSub.visibility = View.GONE
+                binding.tvEvent.visibility = View.GONE
                 showError("No internet connection")
             } else {
                 viewModel.fetchEvents()
@@ -188,10 +149,5 @@ class HomeFragment : Fragment() {
         binding.contentGroup.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
         binding.pgError.visibility = View.VISIBLE
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

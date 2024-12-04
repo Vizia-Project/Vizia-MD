@@ -1,4 +1,4 @@
-package com.capstone.viziaproject.ui.home
+package com.capstone.viziaproject.ui.news
 
 import android.net.Uri
 import android.util.Log
@@ -14,7 +14,7 @@ import com.capstone.viziaproject.data.response.DataItem
 import com.capstone.viziaproject.helper.Result
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val userRepository: UserRepository, private val newsRepository: NewsRepository) : ViewModel() {
+class NewsViewModel(private val userRepository: UserRepository, private val newsRepository: NewsRepository) : ViewModel() {
 
     private var _currentImageUri = MutableLiveData<Uri?>()
     val currentImageUri: MutableLiveData<Uri?> = _currentImageUri
@@ -33,10 +33,11 @@ class HomeViewModel(private val userRepository: UserRepository, private val news
     }
 
     fun fetchEvents() {
-        getArticle()
+        getAllArticle()
         _error.value = null
     }
-    fun getArticle() {
+
+    fun getAllArticle() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -45,9 +46,7 @@ class HomeViewModel(private val userRepository: UserRepository, private val news
                         is Result.Loading -> _isLoading.value = true
                         is Result.Success -> {
                             _isLoading.value = false
-//                            _listNews.value = result.data.data
-                            val latestNews = result.data.data.take(5)
-                            _listNews.value = latestNews
+                            _listNews.value = result.data.data
                         }
                         is Result.Error -> {
                             _isLoading.value = false
@@ -88,6 +87,6 @@ class HomeViewModel(private val userRepository: UserRepository, private val news
 
     private fun handleError(message: String?) {
         _error.value = message
-        Log.e("MainViewModel", message ?: "Unknown error")
+        Log.e("cekcek", message ?: "Unknown error")
     }
 }

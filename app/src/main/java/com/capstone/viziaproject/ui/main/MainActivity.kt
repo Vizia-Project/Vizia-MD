@@ -48,14 +48,7 @@ class MainActivity : AppCompatActivity() {
             pref = UserPreference.getInstance(it.dataStore)
         }
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.navigation_home) {
-                supportActionBar?.hide()
-                supportActionBar?.setDisplayShowTitleEnabled(false)
-            } else {
-                supportActionBar?.show()
-            }
-        }
+        supportActionBar?.show()
 
         viewModel.getSession().observe(this) { user ->
             Log.d("cekcek", "User session: token=${user.token}, isLogin=${user.isLogin}")
