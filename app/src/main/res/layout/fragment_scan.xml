@@ -4,20 +4,104 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ui.scan.ScanFragment">
 
     <TextView
-        android:id="@+id/text_scan"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:text="Periksa Mata Anda"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload gambar kondisi mata anda"
+        android:textSize="14sp"
+        android:textColor="@color/textColor"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"/>
+
+    <TextView
+        android:id="@+id/instructionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_theme_secondaryContainer"
+        android:padding="8dp"
+        android:text="Perhatikan ketika upload gambar\n • Supporting line text lorem ipsum dolor sit amet.\n • Supporting line text lorem ipsum dolor sit amet.\n • Supporting line text lorem ipsum dolor sit amet."
+        android:textSize="12sp"
+        android:textColor="@color/textColor"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subtitle"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layoutImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        android:backgroundTint="@color/md_theme_onPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instructionText"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_margin="16dp"
+            android:id="@+id/imagePlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="330dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_image_placeholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/galeriButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Galeri"
+        android:textColor="@color/white"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutImage"
+        app:layout_constraintEnd_toStartOf="@id/kameraButton"
+        app:layout_constraintHorizontal_bias="0" />
+
+    <Button
+        android:id="@+id/kameraButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Kamera"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toEndOf="@id/galeriButton"
+        app:layout_constraintTop_toBottomOf="@id/layoutImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1" />
+
+    <Button
+        android:id="@+id/analyzeButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Analysis Foto"
+        android:textColor="@color/white"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kameraButton"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

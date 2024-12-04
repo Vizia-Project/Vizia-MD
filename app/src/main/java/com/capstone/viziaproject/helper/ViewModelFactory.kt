@@ -12,6 +12,7 @@ import com.capstone.viziaproject.ui.login.LoginViewModel
 import com.capstone.viziaproject.ui.main.MainViewModel
 import com.capstone.viziaproject.ui.news.NewsViewModel
 import com.capstone.viziaproject.ui.register.RegisterViewModel
+import com.capstone.viziaproject.ui.scan.ScanViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(
@@ -38,6 +39,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(NewsViewModel::class.java) -> {
                 NewsViewModel(userRepository, newsRepository) as T
+            }
+            modelClass.isAssignableFrom(ScanViewModel::class.java) -> {
+                ScanViewModel(userRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
