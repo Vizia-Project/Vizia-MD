@@ -25,7 +25,6 @@ import com.capstone.viziaproject.data.response.DataItem
 import com.capstone.viziaproject.databinding.FragmentHomeBinding
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.ui.IntroActivity
-import com.capstone.viziaproject.ui.dashboard.DashboardFragment
 import com.capstone.viziaproject.ui.detailNews.DetailNewsActivity
 import com.capstone.viziaproject.ui.login.LoginActivity
 import com.capstone.viziaproject.ui.news.NewsFragment
@@ -194,7 +193,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 navController.navigate(R.id.navigation_news)
             }
             R.id.buttonScan -> {
-                bottomNavView.selectedItemId = R.id.navigation_dashboard
+                bottomNavView.selectedItemId = R.id.navigation_scan
             }
         }
     }

@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.capstone.viziaproject.ui.dashboard.DashboardFragment"
-        android:label=""
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.capstone.viziaproject.ui.notifications.NotificationsFragment"
         android:label=""
@@ -28,4 +22,9 @@
         android:name="com.capstone.viziaproject.ui.news.NewsFragment"
         android:label=""
         tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/navigation_scan"
+        android:name="com.capstone.viziaproject.ui.scan.ScanFragment"
+        android:label=""
+        tools:layout="@layout/fragment_scan" />
 </navigation>
