@@ -1,6 +1,9 @@
 package com.capstone.viziaproject.ui.detailNews
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -21,6 +24,7 @@ import com.capstone.viziaproject.ui.IntroActivity
 
 class DetailNewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailNewsBinding
+    private var isToastShown = false
     private val viewModel by viewModels<DetailNewsViewModel> {
         ViewModelFactory.getInstance(this)
     }
@@ -28,6 +32,15 @@ class DetailNewsActivity : AppCompatActivity() {
     companion object {
         const val STORY_URL = "STORY_URL"
     }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +54,15 @@ class DetailNewsActivity : AppCompatActivity() {
             Toast.makeText(this, "Data cerita tidak ditemukan", Toast.LENGTH_SHORT).show()
             finish()
             return
+        }
+
+        if (isInternetAvailable()) {
+            binding.pgError.visibility = View.GONE
+            binding.contentGroup.visibility = View.VISIBLE
+        } else {
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
+            binding.pgError.visibility = View.VISIBLE
+            binding.contentGroup.visibility = View.GONE
         }
 
         viewModel.getSession().observe(this) { user ->
@@ -67,13 +89,26 @@ class DetailNewsActivity : AppCompatActivity() {
         }
 
         viewModel.isLoading.observe(this) { isLoading ->
+            binding.contentGroup.visibility = if (isLoading) View.GONE else View.VISIBLE
+            binding.imgEvent.visibility = if (isLoading) View.GONE else View.VISIBLE
+            binding.tvName.visibility = if (isLoading) View.GONE else View.VISIBLE
+            binding.deskripsi.visibility = if (isLoading) View.GONE else View.VISIBLE
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.pgError.visibility = if (isLoading) View.GONE else View.GONE
         }
 
         viewModel.error.observe(this) { errorMessage ->
-            errorMessage?.let {
-                Log.e("cekcek123", it)
-            }
+            errorMessage?.let { showError(it) }
+        }
+
+    }
+
+
+    private fun showError(message: String) {
+        if (!isToastShown) {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            isToastShown = true
+            viewModel.clearError()
         }
     }
 }

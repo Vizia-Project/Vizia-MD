@@ -33,6 +33,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+
         val navView: BottomNavigationView = binding.navView
 
         val navHostFragment =
@@ -46,24 +50,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-//        val fragmentManager = supportFragmentManager
-//        val newsFragment = NewsFragment()
-//        val fragment = fragmentManager.findFragmentByTag(NewsFragment::class.java.simpleName)
-//
-//        if (fragment !is NewsFragment) {
-//            Log.d("cekcek", "Fragment Name :" + NewsFragment::class.java.simpleName)
-//            fragmentManager
-//                .beginTransaction()
-//                .add(R.id.fragment_container, newsFragment, NewsFragment::class.java.simpleName)
-//                .commit()
-//        }
-
-
         application?.let {
             pref = UserPreference.getInstance(it.dataStore)
         }
-
-        supportActionBar?.show()
 
         viewModel.getSession().observe(this) { user ->
             Log.d("cekcek", "User session: token=${user.token}, isLogin=${user.isLogin}")

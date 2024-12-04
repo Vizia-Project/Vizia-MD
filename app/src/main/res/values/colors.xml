@@ -13,6 +13,7 @@
     <color name="colorPrimary">#FF6200EE</color>
     <color name="gray">#B0B0B0</color>
 
+    <color name="textColor">#FF000000</color>
     <color name="md_theme_primary">#6D538B</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
     <color name="md_theme_primaryContainer">#EFDBFF</color>

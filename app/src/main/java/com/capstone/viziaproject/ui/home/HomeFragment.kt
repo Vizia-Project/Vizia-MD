@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -38,6 +39,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private val binding get() = _binding!!
     private val adapter = HomeAdapter()
     private var isToastShown = false
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun isInternetAvailable(): Boolean {
@@ -93,15 +95,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 startActivity(intent)
             }
         })
-
-//        viewModel.getSession().observe(viewLifecycleOwner) { user ->
-//            if (!user.isLogin) {
-//                startActivity(Intent(requireContext(), IntroActivity::class.java))
-//                requireActivity().finish()
-//            } else {
-//                viewModel.getArticle()
-//            }
-//        }
     }
 
     private fun setupObservers() {
@@ -125,9 +118,20 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private fun setupActions() {
         binding.buttonKeluar.setOnClickListener {
-            viewModel.logout()
-            startActivity(Intent(requireContext(), LoginActivity::class.java))
-            requireActivity().finish()
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Konfirmasi")
+                .setMessage("Apakah Anda yakin ingin keluar?")
+                .setPositiveButton("Ya") { dialog, id ->
+                    viewModel.logout()
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
+                    requireActivity().finish()
+                }
+                .setNegativeButton("Tidak") { dialog, id ->
+                    dialog.dismiss()
+                }
+
+            val dialog = builder.create()
+            dialog.show()
         }
         binding.buttonScan.setOnClickListener(this)
         binding.buttonNews.setOnClickListener(this)

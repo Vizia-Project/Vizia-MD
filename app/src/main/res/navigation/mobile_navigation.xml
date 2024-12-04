@@ -8,24 +8,24 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.capstone.viziaproject.ui.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label=""
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.capstone.viziaproject.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label=""
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.capstone.viziaproject.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label=""
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_news"
         android:name="com.capstone.viziaproject.ui.news.NewsFragment"
-        android:label="fragment_news"
+        android:label=""
         tools:layout="@layout/fragment_news" />
 </navigation>

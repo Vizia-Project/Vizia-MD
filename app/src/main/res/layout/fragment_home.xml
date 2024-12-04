@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="40dp"
     tools:context=".ui.home.HomeFragment">
 
     <LinearLayout
@@ -46,7 +45,7 @@
                 android:layout_marginHorizontal="20dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="8dp"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/md_theme_onPrimary"
                 app:layout_constraintStart_toStartOf="@+id/quickAccess"
                 app:layout_constraintTop_toBottomOf="@+id/quickAccess">
 
@@ -81,7 +80,7 @@
                             android:layout_marginTop="1dp"
                             android:gravity="center"
                             android:text="Scan"
-                            android:textColor="@color/black"
+                            android:textColor="@color/textColor"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -108,7 +107,7 @@
                             android:layout_marginTop="1dp"
                             android:gravity="center"
                             android:text="History"
-                            android:textColor="@color/black"
+                            android:textColor="@color/textColor"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -135,7 +134,7 @@
                             android:layout_marginTop="1dp"
                             android:gravity="center"
                             android:text="Artikel"
-                            android:textColor="@color/black"
+                            android:textColor="@color/textColor"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -162,7 +161,7 @@
                             android:layout_marginTop="1dp"
                             android:gravity="center"
                             android:text="Profil"
-                            android:textColor="@color/black"
+                            android:textColor="@color/textColor"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -189,7 +188,7 @@
                             android:layout_marginTop="1dp"
                             android:gravity="center"
                             android:text="Logout"
-                            android:textColor="@color/black"
+                            android:textColor="@color/textColor"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>

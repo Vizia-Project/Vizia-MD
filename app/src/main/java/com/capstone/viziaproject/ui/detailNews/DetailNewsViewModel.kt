@@ -45,4 +45,19 @@ class DetailNewsViewModel(
             }
         }
     }
+
+    private fun getErrorMessage(statusCode: Int) {
+        val errorMessage = when (statusCode) {
+            401 -> "$statusCode: Bad Request"
+            403 -> "$statusCode: Forbidden"
+            404 -> "$statusCode: Not Found"
+            else -> "$statusCode: An unexpected error occurred."
+        }
+        _error.value = errorMessage
+    }
+
+
+    fun clearError() {
+        _error.value = null
+    }
 }
