@@ -16,6 +16,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.viziaproject.R
 import com.capstone.viziaproject.data.response.DataItem
@@ -26,8 +28,9 @@ import com.capstone.viziaproject.ui.dashboard.DashboardFragment
 import com.capstone.viziaproject.ui.detailNews.DetailNewsActivity
 import com.capstone.viziaproject.ui.login.LoginActivity
 import com.capstone.viziaproject.ui.news.NewsFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), View.OnClickListener {
     private val viewModel by viewModels<HomeViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
@@ -126,24 +129,8 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
             requireActivity().finish()
         }
-        binding.buttonScan.setOnClickListener {
-            val fragment = DashboardFragment()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
-
-        // TOMBOL NEWS untuk navigasi ke NewsFragment
-        binding.buttonNews.setOnClickListener {
-            // Membuat instance NewsFragment
-            val fragment = NewsFragment()
-            // Memulai fragment transaction untuk mengganti fragment
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)  // Ganti dengan kontainer yang sesuai
-                .addToBackStack(null)  // Menambahkan fragment ke back stack
-                .commitAllowingStateLoss()
-        }
+        binding.buttonScan.setOnClickListener(this)
+        binding.buttonNews.setOnClickListener(this)
     }
     @RequiresApi(Build.VERSION_CODES.M)
     @Suppress("DEPRECATION")
@@ -193,5 +180,18 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onClick(v: View?) {
+        val navController = findNavController()
+        val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        when (v?.id) {
+            R.id.buttonNews -> {
+                navController.navigate(R.id.navigation_news)
+            }
+            R.id.buttonScan -> {
+                bottomNavView.selectedItemId = R.id.navigation_dashboard
+            }
+        }
     }
 }

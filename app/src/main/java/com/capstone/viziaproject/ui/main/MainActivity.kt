@@ -17,6 +17,8 @@ import com.capstone.viziaproject.data.pref.dataStore
 import com.capstone.viziaproject.databinding.ActivityMainBinding
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.ui.IntroActivity
+import com.capstone.viziaproject.ui.home.HomeFragment
+import com.capstone.viziaproject.ui.news.NewsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -43,6 +45,19 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+//        val fragmentManager = supportFragmentManager
+//        val newsFragment = NewsFragment()
+//        val fragment = fragmentManager.findFragmentByTag(NewsFragment::class.java.simpleName)
+//
+//        if (fragment !is NewsFragment) {
+//            Log.d("cekcek", "Fragment Name :" + NewsFragment::class.java.simpleName)
+//            fragmentManager
+//                .beginTransaction()
+//                .add(R.id.fragment_container, newsFragment, NewsFragment::class.java.simpleName)
+//                .commit()
+//        }
+
 
         application?.let {
             pref = UserPreference.getInstance(it.dataStore)
