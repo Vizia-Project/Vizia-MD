@@ -8,6 +8,7 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.capstone.viziaproject.ml.Model
 import com.capstone.viziaproject.ml.Vegs
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -21,18 +22,19 @@ class ImageClassifierHelper(
 ) {
 
     interface ClassifierListener {
-        fun onResults(results: List<Pair<String, Float>>?, inferenceTime: Long)
+        fun onResults(results: List<Pair<String, Float>>?,
+                      inferenceTime: Long)
         fun onError(error: String)
     }
 
-    private val imageClassifier: Vegs by lazy {
-        Vegs.newInstance(context)
+    private val imageClassifier: Model by lazy {
+        Model.newInstance(context)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun classifyStaticImage(imageUri: Uri) {
         try {
-            Log.d(TAG, "Starting image classification for URI: $imageUri")
+            Log.d("cekcekimage", "Starting image classification for URI: $imageUri")
 
             // Decode and preprocess the image
             val bitmap = decodeBitmapFromUri(imageUri)?.let { Bitmap.createScaledBitmap(it, 128, 128, true) }
@@ -41,17 +43,17 @@ class ImageClassifierHelper(
                 return
             }
 
-            Log.d(TAG, "Decoded and resized bitmap to 128x128")
+            Log.d("cekcekimage", "Decoded and resized bitmap to 128x128")
 
             // Convert the bitmap to ByteBuffer
             val byteBuffer = convertBitmapToByteBuffer(bitmap)
-            Log.d(TAG, "Bitmap converted to ByteBuffer")
+            Log.d("cekcekimage", "Bitmap converted to ByteBuffer")
 
             // Create TensorBuffer for input
             val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 128, 128, 3), DataType.FLOAT32)
             inputFeature0.loadBuffer(byteBuffer)
 
-            Log.d("Model", "Input shape: ${inputFeature0.shape.contentToString()}")
+            Log.d("cekcekimage", "Input shape: ${inputFeature0.shape.contentToString()}")
 
 
             // Measure inference time
@@ -59,7 +61,7 @@ class ImageClassifierHelper(
             val outputs = imageClassifier.process(inputFeature0)
             val inferenceTime = System.nanoTime() - startTime
 
-            Log.d(TAG, "Inference completed in $inferenceTime nanoseconds")
+            Log.d("cekcekimage", "Inference completed in $inferenceTime nanoseconds")
 
             // Process the output
             val result = processModelOutput(outputs.outputFeature0AsTensorBuffer)
@@ -67,13 +69,13 @@ class ImageClassifierHelper(
 
         } catch (e: Exception) {
             classifierListener?.onError("Error during image classification: ${e.message}")
-            Log.e(TAG, "Error classifying image: ${e.message}")
+            Log.e("cekcekimage", "Error classifying image: ${e.message}")
         }
     }
 
     private fun decodeBitmapFromUri(imageUri: Uri): Bitmap? {
         return try {
-            Log.d(TAG, "Decoding bitmap from URI: $imageUri")
+            Log.d("cekcekimage", "Decoding bitmap from URI: $imageUri")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 val source = ImageDecoder.createSource(context.contentResolver, imageUri)
                 ImageDecoder.decodeBitmap(source)
@@ -82,14 +84,14 @@ class ImageClassifierHelper(
                 MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error decoding bitmap from URI: ${e.message}")
+            Log.e("cekcekimage", "Error decoding bitmap from URI: ${e.message}")
             null
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
-        Log.d(TAG, "Converting bitmap to ByteBuffer")
+        Log.d("cekcekimage", "Converting bitmap to ByteBuffer")
 
         // Convert HARDWARE bitmaps to ARGB_8888 for pixel access
         val mutableBitmap = if (bitmap.config == Bitmap.Config.HARDWARE) {
@@ -113,7 +115,7 @@ class ImageClassifierHelper(
             byteBuffer.putFloat(b)
         }
 
-        Log.d(TAG, "Bitmap successfully converted to ByteBuffer")
+        Log.d("cekcekimage", "Bitmap successfully converted to ByteBuffer")
         return byteBuffer
     }
 
@@ -123,12 +125,12 @@ class ImageClassifierHelper(
         for (i in outputArray.indices) {
             result.add(Pair("Label $i", outputArray[i]))
         }
-        Log.d(TAG, "Processed model output: ${result.take(5)}")  // Log top 5 results
+        Log.d("cekcekimage", "Processed model output: ${result.take(5)}")  // Log top 5 results
         return result.sortedByDescending { it.second }
     }
 
     fun close() {
-        Log.d(TAG, "Closing model and releasing resources")
+        Log.d("cekcekimage", "Closing model and releasing resources")
         imageClassifier.close()
     }
 

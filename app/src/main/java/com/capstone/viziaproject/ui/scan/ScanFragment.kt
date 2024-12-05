@@ -8,6 +8,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ import com.capstone.viziaproject.helper.ImageClassifierHelper
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.helper.getImageUri
 import com.capstone.viziaproject.ml.Vegs
+import com.capstone.viziaproject.ui.question.Quest1Activity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.DataType
@@ -141,8 +143,18 @@ class ScanFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
+//    private fun moveToResult(label: String?, confidence: Float?) {
+//        Log.d("cekcekimage", "Label: $label, Confidence: $confidence")
+//        val intent = Intent(requireContext(), ResultActivity::class.java).apply {
+//            putExtra("imageUri", viewModel.currentImageUri.value.toString())
+//            putExtra("label", label)
+//            putExtra("confidence", confidence)
+//        }
+//        startActivity(intent)
+//    }
     private fun moveToResult(label: String?, confidence: Float?) {
-        val intent = Intent(requireContext(), ResultActivity::class.java).apply {
+        Log.d("cekcekimage", "Label: $label, Confidence: $confidence")
+        val intent = Intent(requireContext(), Quest1Activity::class.java).apply {
             putExtra("imageUri", viewModel.currentImageUri.value.toString())
             putExtra("label", label)
             putExtra("confidence", confidence)

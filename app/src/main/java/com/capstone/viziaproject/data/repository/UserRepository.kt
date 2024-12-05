@@ -29,9 +29,8 @@ class UserRepository private constructor(private val userPreference: UserPrefere
             emit(Result.Success(response))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
-            val gson = Gson()
-            val parsedError = gson.fromJson(errorBody, RegisterResponse::class.java)
-            emit(Result.Success(parsedError))
+            val errorMessage = errorBody ?: "Kesalahan tidak diketahui"
+            emit(Result.Error(errorMessage))
         } catch (e: Exception) {
             emit(Result.Error(e.message ?: "Kesalahan tidak terduga"))
         }

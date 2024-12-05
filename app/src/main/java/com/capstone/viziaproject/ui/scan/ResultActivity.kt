@@ -3,6 +3,7 @@ package com.capstone.viziaproject.ui.scan
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -22,6 +23,7 @@ class ResultActivity : AppCompatActivity() {
 
         val imageUri = intent.getStringExtra("imageUri")?.let { Uri.parse(it) }
         val label = intent.getStringExtra("label")
+        Log.d("cekcek", "Received Label: $label")
         val confidence = intent.getFloatExtra("confidence", 0.0f)
 
         val imageView: ImageView = findViewById(R.id.result_image)
@@ -29,7 +31,14 @@ class ResultActivity : AppCompatActivity() {
         val confidenceView: TextView = findViewById(R.id.result_confidence)
 
         imageView.setImageURI(imageUri)
-        labelView.text = "Label: $label"
+        val condition = when (label) {
+            "Label 0" -> "Normal"
+            "Label 1" -> "Stye"
+            "Label 2" -> "Uveitis"
+            else -> "Unknown"
+        }
+
+        labelView.text = "Result: $condition Eye"
         confidenceView.text = "Confidence: ${"%.2f".format(confidence * 100)}%"
     }
 }

@@ -26,6 +26,30 @@
         android:theme="@style/Theme.ViziaProject"
         tools:targetApi="31">
         <activity
+            android:name=".ui.scan.DiagnosisActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.question.Quest7Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.question.Quest6Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.question.Quest5Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.question.Quest4Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.question.Quest3Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.question.Quest2Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.question.Quest1Activity"
+            android:exported="false" />
+        <activity
             android:name=".ui.scan.ResultActivity"
             android:exported="false" />
         <activity
