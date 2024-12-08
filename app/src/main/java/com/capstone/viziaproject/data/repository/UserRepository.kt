@@ -7,6 +7,7 @@ import com.capstone.viziaproject.data.pref.UserModel
 import com.capstone.viziaproject.data.pref.UserPreference
 import com.capstone.viziaproject.data.response.LoginResponse
 import com.capstone.viziaproject.data.response.RegisterResponse
+import com.capstone.viziaproject.data.response.SignupResponse
 import com.capstone.viziaproject.data.retrofit.ApiService
 
 import com.capstone.viziaproject.helper.Result
@@ -22,7 +23,7 @@ class UserRepository private constructor(private val userPreference: UserPrefere
         userPreference.saveSession(user)
     }
 
-    fun register(name: String, email: String, password: String, passwordConfirmation: String): LiveData<Result<RegisterResponse>> = liveData {
+    fun register(name: String, email: String, password: String, passwordConfirmation: String): LiveData<Result<SignupResponse>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.register(name, email, password, passwordConfirmation)

@@ -1,15 +1,23 @@
 package com.capstone.viziaproject.ui.scan
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
+import com.capstone.viziaproject.R
 import com.capstone.viziaproject.databinding.ActivityDiagnosisBinding
+import com.capstone.viziaproject.ui.main.MainActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DiagnosisActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityDiagnosisBinding
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +25,6 @@ class DiagnosisActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val dateTime = intent.getStringExtra("dateTime") ?: "Waktu tidak tersedia"
-
         val answers = intent.getIntegerArrayListExtra("answers") ?: arrayListOf()
         val imageUri = intent.getStringExtra("imageUri")?.let { Uri.parse(it) }
         val label = intent.getStringExtra("label")
@@ -27,7 +34,6 @@ class DiagnosisActivity : AppCompatActivity() {
 
         binding.imagePlaceholder.setImageURI(imageUri)
         binding.date.text = dateTime
-
         val resultDisease = when (diagnosisResult) {
             "Negative" -> {
                 "Label 0"
@@ -57,7 +63,6 @@ class DiagnosisActivity : AppCompatActivity() {
 
         binding.tvIndikasi.text = "($condition)"
         Log.d("cekcekdiagnosis", "Akurasi pada gambar saja: ${"%.2f".format(confidence * 100)}%")
-//        binding.tvAkurasiGambar.text = "${"%.2f".format(confidence * 100)}%"
 
         if (answers.isNotEmpty()) {
             fun getAnswerText(value: Int): String = when (value) {
@@ -140,5 +145,46 @@ class DiagnosisActivity : AppCompatActivity() {
 
             binding.tvKeterangan.text = HtmlCompat.fromHtml(htmlContent, HtmlCompat.FROM_HTML_MODE_LEGACY)
         }
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavigationView.selectedItemId = R.id.navigation_scan
+
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    showUnsavedDialog {
+                        navigateToMainActivity(R.id.navigation_home)
+                    }
+                    true
+                }
+
+                R.id.navigation_notifications -> {
+                    showUnsavedDialog {
+                        navigateToMainActivity(R.id.navigation_notifications)
+                    }
+                    true
+                }
+
+                R.id.navigation_scan -> true
+                else -> false
+            }
+        }
+    }
+
+    private fun showUnsavedDialog(onConfirm: () -> Unit) {
+        AlertDialog.Builder(this)
+            .setTitle("Peringatan")
+            .setMessage("Apakah Anda tidak ingin menyimpan hasil diagnosis?")
+            .setPositiveButton("Ya") { _: DialogInterface, _: Int -> onConfirm() }
+            .setNegativeButton("Tidak") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun navigateToMainActivity(fragmentId: Int) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("FRAGMENT_ID", fragmentId)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        finish()
     }
 }

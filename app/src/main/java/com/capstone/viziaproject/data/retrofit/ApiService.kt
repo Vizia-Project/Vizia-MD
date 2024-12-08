@@ -4,6 +4,7 @@ import com.capstone.viziaproject.data.response.DetailNewsResponse
 import com.capstone.viziaproject.data.response.LoginResponse
 import com.capstone.viziaproject.data.response.NewsResponse
 import com.capstone.viziaproject.data.response.RegisterResponse
+import com.capstone.viziaproject.data.response.SignupResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Field
@@ -24,7 +25,7 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("password_confirmation") passwordConfirmation: String
-    ): RegisterResponse
+    ): SignupResponse
 
     @FormUrlEncoded
     @POST("login")

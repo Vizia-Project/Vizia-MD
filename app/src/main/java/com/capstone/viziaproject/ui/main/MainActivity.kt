@@ -50,6 +50,22 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        val fragmentId = intent.getIntExtra("FRAGMENT_ID", R.id.navigation_home)
+        when (fragmentId) {
+            R.id.navigation_home -> {
+                navController.navigate(R.id.navigation_home)
+            }
+            R.id.navigation_notifications -> {
+                navController.navigate(R.id.navigation_notifications)
+            }
+            R.id.navigation_scan -> {
+                navController.navigate(R.id.navigation_scan)
+            }
+            else -> {
+                navController.navigate(R.id.navigation_home)
+            }
+        }
+
         application?.let {
             pref = UserPreference.getInstance(it.dataStore)
         }

@@ -81,7 +81,7 @@ class RegisterActivity : AppCompatActivity() {
                     is Result.Success -> {
                         binding.progressBar.visibility = View.GONE
                         val response = result.data
-                        if (response.error == false) {
+                        if (response.status == "success") {
                             showSuccessDialog(email)
                         } else {
                             showErrorDialog(response.message ?: "Terjadi kesalahan.")

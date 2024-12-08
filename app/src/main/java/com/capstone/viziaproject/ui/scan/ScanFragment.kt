@@ -19,19 +19,11 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.capstone.viziaproject.databinding.FragmentScanBinding
 import com.capstone.viziaproject.helper.ImageClassifierHelper
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.helper.getImageUri
-import com.capstone.viziaproject.ml.Vegs
 import com.capstone.viziaproject.ui.question.Quest1Activity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.tensorflow.lite.DataType
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 
 class ScanFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
 
@@ -143,15 +135,6 @@ class ScanFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-//    private fun moveToResult(label: String?, confidence: Float?) {
-//        Log.d("cekcekimage", "Label: $label, Confidence: $confidence")
-//        val intent = Intent(requireContext(), ResultActivity::class.java).apply {
-//            putExtra("imageUri", viewModel.currentImageUri.value.toString())
-//            putExtra("label", label)
-//            putExtra("confidence", confidence)
-//        }
-//        startActivity(intent)
-//    }
     private fun moveToResult(label: String?, confidence: Float?) {
         Log.d("cekcekimage", "Label: $label, Confidence: $confidence")
         val intent = Intent(requireContext(), Quest1Activity::class.java).apply {
