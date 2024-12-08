@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.viziaproject.data.repository.NewsRepository
+import com.capstone.viziaproject.data.repository.PredictRepository
 import com.capstone.viziaproject.data.repository.UserRepository
 import com.capstone.viziaproject.di.Injection
 import com.capstone.viziaproject.ui.detailNews.DetailNewsViewModel
@@ -12,12 +13,14 @@ import com.capstone.viziaproject.ui.login.LoginViewModel
 import com.capstone.viziaproject.ui.main.MainViewModel
 import com.capstone.viziaproject.ui.news.NewsViewModel
 import com.capstone.viziaproject.ui.register.RegisterViewModel
+import com.capstone.viziaproject.ui.scan.DiagnosisViewModel
 import com.capstone.viziaproject.ui.scan.ScanViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(
     private val userRepository: UserRepository,
-    private val newsRepository: NewsRepository
+    private val newsRepository: NewsRepository,
+    private val predictRepository: PredictRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -41,7 +44,10 @@ class ViewModelFactory(
                 NewsViewModel(userRepository, newsRepository) as T
             }
             modelClass.isAssignableFrom(ScanViewModel::class.java) -> {
-                ScanViewModel(userRepository) as T
+                ScanViewModel(userRepository, predictRepository) as T
+            }
+            modelClass.isAssignableFrom(DiagnosisViewModel::class.java) -> {
+                DiagnosisViewModel(userRepository, predictRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
@@ -56,7 +62,8 @@ class ViewModelFactory(
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: ViewModelFactory(
                     Injection.provideUserRepository(context),
-                    Injection.provideNewsRepository(context)
+                    Injection.provideNewsRepository(context),
+                    Injection.providePredictRepository(context)
                 ).also {
                     INSTANCE = it
                 }

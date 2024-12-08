@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -64,7 +65,8 @@ class LoginActivity : AppCompatActivity() {
                         val response = result.data
                         if (response.status == "success") {
                             response.data.let {
-                                viewModel.saveSession(UserModel(email, it.token, true))
+                                Log.d("cekceklogin", "User ID: ${it.id}")
+                                viewModel.saveSession(UserModel(email, it.token, true, it.id))
                                 showSuccessDialog(it.name)
                             }
                         } else {

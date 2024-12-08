@@ -5,6 +5,7 @@ import com.capstone.viziaproject.data.response.LoginResponse
 import com.capstone.viziaproject.data.response.NewsResponse
 import com.capstone.viziaproject.data.response.RegisterResponse
 import com.capstone.viziaproject.data.response.SignupResponse
+import com.capstone.viziaproject.data.response.StoreHistoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Field
@@ -41,4 +42,32 @@ interface ApiService {
     suspend fun getDetailStory(
         @Query("url") url: String
     ): DetailNewsResponse
+
+//    @FormUrlEncoded
+//    @POST("histories")
+//    suspend fun storeHistory(
+//        @Field("userId") userId: Int,
+//        @Field("date") date: String,
+//        @Field("image") image: String,
+//        @Field("question_result") questionResult: List<Int>,
+//        @Field("infection_status") infectionStatus: String,
+//        @Field("prediction_result") predictionResult: String,
+//        @Field("accuracy") accuracy: Double,
+//        @Field("information") information: String
+//    ): StoreHistoryResponse
+
+    @Multipart
+    @POST("histories")
+    suspend fun storeHistory(
+        @Part image: MultipartBody.Part,
+        @Part("userId") userId: RequestBody,
+        @Part("date") date: RequestBody,
+        @Part("question_result") questionResult: RequestBody,
+        @Part("infection_status") infectionStatus: RequestBody,
+        @Part("prediction_result") predictionResult: RequestBody,
+        @Part("accuracy") accuracy: RequestBody,
+        @Part("information") information: RequestBody
+    ): StoreHistoryResponse
+
+
 }

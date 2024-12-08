@@ -26,7 +26,7 @@ class DiagnosisActivity : AppCompatActivity() {
 
         val dateTime = intent.getStringExtra("dateTime") ?: "Waktu tidak tersedia"
         val answers = intent.getIntegerArrayListExtra("answers") ?: arrayListOf()
-        val imageUri = intent.getStringExtra("imageUri")?.let { Uri.parse(it) }
+        val imageUri = intent.getStringExtra("imageUriQuest")?.let { Uri.parse(it) }
         val label = intent.getStringExtra("label")
         val diagnosisResult = intent.getStringExtra("diagnosisResult")
         val confidence = intent.getFloatExtra("confidence", 0.0f)

@@ -1,7 +1,6 @@
 package com.capstone.viziaproject.ui.scan
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,11 +8,22 @@ import androidx.lifecycle.asLiveData
 import com.capstone.viziaproject.data.pref.UserModel
 import com.capstone.viziaproject.data.repository.PredictRepository
 import com.capstone.viziaproject.data.repository.UserRepository
+import com.capstone.viziaproject.data.response.DataItem
+import com.capstone.viziaproject.data.response.StoreHistoryResponse
+import com.capstone.viziaproject.helper.Result
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
-class ScanViewModel(private val userRepository: UserRepository, private val predictRepository: PredictRepository) : ViewModel() {
+class DiagnosisViewModel(private val userRepository: UserRepository, private val predictRepository: PredictRepository) : ViewModel() {
+
     private var _currentImageUri = MutableLiveData<Uri?>()
-    val currentImageUri: MutableLiveData<Uri?> = _currentImageUri
+    val currentImageUri: LiveData<Uri?> = _currentImageUri
+
+    private val _listNews = MutableLiveData<List<DataItem>>()
+    val listNews: LiveData<List<DataItem>> = _listNews
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -21,8 +31,8 @@ class ScanViewModel(private val userRepository: UserRepository, private val pred
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
-    fun setCurrentImageUri(uri: Uri?) {
-        _currentImageUri.value = uri
+    fun getSession(): LiveData<UserModel> {
+        return userRepository.getSession().asLiveData()
     }
 
     fun store(
@@ -37,15 +47,7 @@ class ScanViewModel(private val userRepository: UserRepository, private val pred
     ) = predictRepository.add(imageUri, userId, date, questionResult, infectionStatus, predictionResult, accuracy, information)
 
 
-    fun clearError() {
-        _error.value = null
-    }
-
-    fun getSession(): LiveData<UserModel> {
-        return userRepository.getSession().asLiveData()
-    }
-    private fun handleError(message: String?) {
-        _error.value = message
-        Log.e("MainViewModel", message ?: "Unknown error")
+    fun setCurrentImageUri(uri: Uri?) {
+        _currentImageUri.value = uri
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import com.capstone.viziaproject.data.pref.UserPreference
 import com.capstone.viziaproject.data.pref.dataStore
 import com.capstone.viziaproject.data.repository.NewsRepository
+import com.capstone.viziaproject.data.repository.PredictRepository
 import com.capstone.viziaproject.data.repository.UserRepository
 import com.capstone.viziaproject.data.retrofit.ApiConfig
 
@@ -17,6 +18,11 @@ object Injection {
         val pref = UserPreference.getInstance(context.dataStore)
         val apiService = ApiConfig.getApiService(pref)
         return NewsRepository.getInstance(apiService, pref)
+    }
+    fun providePredictRepository(context: Context): PredictRepository {
+        val pref = UserPreference.getInstance(context.dataStore)
+        val apiService = ApiConfig.getApiService(pref)
+        return PredictRepository.getInstance(apiService)
     }
 
 }
