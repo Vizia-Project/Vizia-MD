@@ -9,7 +9,14 @@
         android:id="@+id/navigation_home"
         android:name="com.capstone.viziaproject.ui.home.HomeFragment"
         android:label=""
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_history"
+            app:destination="@id/navigation_history" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_news"
+            app:destination="@id/navigation_news" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -27,4 +34,9 @@
         android:name="com.capstone.viziaproject.ui.scan.ScanFragment"
         android:label=""
         tools:layout="@layout/fragment_scan" />
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="com.capstone.viziaproject.ui.history.HistoryFragment"
+        android:label=""
+        tools:layout="@layout/fragment_history" />
 </navigation>

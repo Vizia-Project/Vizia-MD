@@ -1,4 +1,4 @@
-package com.capstone.viziaproject.ui.home
+package com.capstone.viziaproject.ui.history
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,36 +9,32 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.capstone.viziaproject.R
 import com.capstone.viziaproject.data.response.DataItem
-import com.capstone.viziaproject.databinding.FragmentHomeBinding
+import com.capstone.viziaproject.data.response.DataItemHistory
+import com.capstone.viziaproject.databinding.FragmentHistoryBinding
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.ui.IntroActivity
 import com.capstone.viziaproject.ui.detailNews.DetailNewsActivity
-import com.capstone.viziaproject.ui.login.LoginActivity
-import com.capstone.viziaproject.ui.news.NewsFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.capstone.viziaproject.ui.home.HomeAdapter
+import com.capstone.viziaproject.ui.scan.DiagnosisActivity
+import com.capstone.viziaproject.ui.scan.ScanViewModel
 
-class HomeFragment : Fragment(), View.OnClickListener {
-    private val viewModel by viewModels<HomeViewModel> {
+class HistoryFragment : Fragment() {
+    private val viewModel by viewModels<ScanViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
-    private val adapter = HomeAdapter()
+    private val adapter = HistoryAdapter()
     private var isToastShown = false
-
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun isInternetAvailable(): Boolean {
@@ -53,10 +49,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        Log.d("cekcek", "onCreateView called")
+        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,16 +61,16 @@ class HomeFragment : Fragment(), View.OnClickListener {
             Log.d("cekcek", "User session: token=${user.token}, isLogin=${user.isLogin}")
             if (user.token.isNotEmpty() && user.isLogin) {
                 Log.d("cekcek", "Formatted token: Bearer ${user.token}")
-                viewModel.getArticle()
+                viewModel.getHistoryUser(user.userId)
             } else {
                 startActivity(Intent(requireContext(), IntroActivity::class.java))
                 requireActivity().finish()
             }
         }
+
         if (isInternetAvailable()) {
             setupRecyclerView()
             setupObservers()
-            setupActions()
             binding.pgError.visibility = View.GONE
             binding.contentGroup.visibility = View.VISIBLE
         } else {
@@ -83,25 +79,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
     }
 
-
-    private fun setupRecyclerView() {
-        binding.rvArtikel.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvArtikel.adapter = adapter
-        adapter.setOnItemClickCallback(object : HomeAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: DataItem) {
-                val intent = Intent(requireContext(), DetailNewsActivity::class.java)
-                intent.putExtra(DetailNewsActivity.STORY_URL, data.sourceUrl)
-                startActivity(intent)
-            }
-        })
-    }
-
     private fun setupObservers() {
-        viewModel.listNews.observe(viewLifecycleOwner) { stories ->
+        viewModel.getHistory.observe(viewLifecycleOwner) { stories ->
             if (!stories.isNullOrEmpty()) {
                 adapter.submitList(stories)
             }
         }
+
+//        viewModel.getSession().observe(viewLifecycleOwner) { user ->
+//            user?.let {
+//                viewModel.getHistoryUser(it.userId)
+//            }
+//        }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -115,27 +104,19 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun setupActions() {
-        binding.buttonKeluar.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Konfirmasi")
-                .setMessage("Apakah Anda yakin ingin keluar?")
-                .setPositiveButton("Ya") { dialog, id ->
-                    viewModel.logout()
-                    startActivity(Intent(requireContext(), LoginActivity::class.java))
-                    requireActivity().finish()
-                }
-                .setNegativeButton("Tidak") { dialog, id ->
-                    dialog.dismiss()
-                }
-
-            val dialog = builder.create()
-            dialog.show()
-        }
-        binding.buttonScan.setOnClickListener(this)
-        binding.buttonNews.setOnClickListener(this)
-        binding.buttonHistory.setOnClickListener(this)
+    private fun setupRecyclerView() {
+        binding.rvHistory.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvHistory.adapter = adapter
+        adapter.setOnItemClickCallback(object : HistoryAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: DataItemHistory) {
+                val intent = Intent(requireContext(), DiagnosisActivity::class.java)
+//                intent.putExtra(DiagnosisActivity.USER_ID, data.id)
+                startActivity(intent)
+            }
+        })
     }
+
+
     @RequiresApi(Build.VERSION_CODES.M)
     @Suppress("DEPRECATION")
     override fun onResume() {
@@ -159,14 +140,21 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (!isInternetAvailable()) {
                 binding.pgError.visibility = View.VISIBLE
                 binding.contentGroup.visibility = View.GONE
-                binding.rvArtikel.visibility = View.GONE
-                binding.quickAccess.visibility = View.GONE
-                binding.newsArtikel.visibility = View.GONE
-                binding.layoutQuick.visibility = View.GONE
-                binding.imageView.visibility = View.GONE
+                binding.rvHistory.visibility = View.GONE
+                binding.tvEvent.visibility = View.GONE
                 showError("No internet connection")
             } else {
-                viewModel.fetchEvents()
+                binding.pgError.visibility = View.GONE
+                binding.contentGroup.visibility = View.VISIBLE
+
+                binding.rvHistory.visibility = View.VISIBLE
+                binding.tvEvent.visibility = View.VISIBLE
+
+                viewModel.getSession().observe(this@HistoryFragment) { user ->
+                    user?.let {
+                        viewModel.getHistoryUser(it.userId)
+                    }
+                }
             }
         }
     }
@@ -181,24 +169,4 @@ class HomeFragment : Fragment(), View.OnClickListener {
         binding.pgError.visibility = View.VISIBLE
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onClick(v: View?) {
-        val navController = findNavController()
-        val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
-        when (v?.id) {
-            R.id.buttonNews -> {
-                navController.navigate(R.id.navigation_news)
-            }
-            R.id.buttonScan -> {
-                bottomNavView.selectedItemId = R.id.navigation_scan
-            }
-            R.id.buttonHistory -> {
-                navController.navigate(R.id.navigation_history)
-            }
-        }
-    }
 }

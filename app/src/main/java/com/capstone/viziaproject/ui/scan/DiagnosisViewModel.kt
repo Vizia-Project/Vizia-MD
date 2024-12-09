@@ -22,9 +22,6 @@ class DiagnosisViewModel(private val userRepository: UserRepository, private val
     private var _currentImageUri = MutableLiveData<Uri?>()
     val currentImageUri: LiveData<Uri?> = _currentImageUri
 
-    private val _listNews = MutableLiveData<List<DataItem>>()
-    val listNews: LiveData<List<DataItem>> = _listNews
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -36,7 +33,7 @@ class DiagnosisViewModel(private val userRepository: UserRepository, private val
     }
 
     fun store(
-        imageUri: File,
+        image: String,
         userId: Int,
         date: String,
         questionResult: List<Int>,
@@ -44,7 +41,18 @@ class DiagnosisViewModel(private val userRepository: UserRepository, private val
         predictionResult: String,
         accuracy: Double,
         information: String
-    ) = predictRepository.add(imageUri, userId, date, questionResult, infectionStatus, predictionResult, accuracy, information)
+    ): LiveData<Result<StoreHistoryResponse>> {
+        return predictRepository.adds(
+            image,
+            userId,
+            date,
+            questionResult,
+            infectionStatus,
+            predictionResult,
+            accuracy,
+            information
+        )
+    }
 
 
     fun setCurrentImageUri(uri: Uri?) {

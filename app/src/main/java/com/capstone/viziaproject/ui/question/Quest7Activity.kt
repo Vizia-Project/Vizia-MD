@@ -1,6 +1,7 @@
 package com.capstone.viziaproject.ui.question
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -8,14 +9,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.capstone.viziaproject.R
 import com.capstone.viziaproject.databinding.ActivityQuest7Binding
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.ml.EyeDiagnosis
 import com.capstone.viziaproject.ui.scan.DiagnosisActivity
-import com.capstone.viziaproject.ui.scan.DiagnosisViewModel
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.nio.ByteBuffer
@@ -25,10 +24,13 @@ import java.text.SimpleDateFormat
 import com.capstone.viziaproject.helper.Result
 import com.capstone.viziaproject.helper.reduceFileImage
 import com.capstone.viziaproject.helper.uriToFile
+import com.capstone.viziaproject.ui.history.HistoryAdapter
 import com.capstone.viziaproject.ui.scan.ScanViewModel
+import com.loopj.android.http.Base64
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 import java.util.Date
 import java.util.Locale
 
@@ -38,6 +40,7 @@ class Quest7Activity : AppCompatActivity() {
     private val position = 6
     private var answers: ArrayList<Int> = ArrayList()
 
+    private val adapter = HistoryAdapter()
     private val diagnosisViewModel: ScanViewModel by viewModels {
         ViewModelFactory.getInstance(this)
     }
@@ -63,6 +66,7 @@ class Quest7Activity : AppCompatActivity() {
             1 -> binding.radioYes.isChecked = true
             0 -> binding.radioNo.isChecked = true
         }
+
 
         diagnosisViewModel.getSession().observe(this) { userModel ->
             Log.d("cekcekquest7", "masukgetsession")
@@ -118,18 +122,28 @@ class Quest7Activity : AppCompatActivity() {
                                 "Label 2" -> "<h2>Uveitis Eye</h2><p><b>Pengertian:</b> Uveitis adalah peradangan pada lapisan tengah mata (uvea), yang dapat menyebabkan gangguan penglihatan jika tidak segera diatasi.</p><p><b>Gejala:</b></p><ul><li>Kemerahan pada mata.</li><li>Penglihatan buram atau kabur.</li><li>Nyeri pada mata, terutama saat terkena cahaya terang.</li></ul><p><b>Cara Mengatasi:</b></p><ul><li>Konsultasi ke dokter mata untuk mendapatkan obat tetes mata steroid atau antiinflamasi.</li><li>Hindari stres yang dapat memperburuk peradangan.</li></ul><p><b>Cara Mencegah:</b></p><ul><li>Lindungi mata dari cedera atau infeksi.</li><li>Hindari paparan bahan kimia atau iritan.</li><li>Jaga kebersihan mata secara rutin.</li></ul>"
                                 else -> "<h2>Tidak Diketahui</h2><p>Mohon maaf, kami tidak dapat menentukan kondisi mata Anda.</p><p>Silakan konsultasikan lebih lanjut dengan dokter mata untuk diagnosis dan pengobatan yang tepat.</p>"
                             }
+                            val informasii="tes"
+                            Log.d("cekcekquest7","$imageUriQuest")
+                            Log.d("cekcekquest7", """
+                                Preparing to send data to diagnosisViewModel.store:
+                                - Image File Path: ${imageFile.path}
+                                - User ID: $userId
+                                - Current DateTime: $currentDateTime
+                                - Answers: $answers
+                                - Condition: $condition
+                                - Diagnosis Result: $diagnosisResult
+                                - Accuracy: $akurasi
+                                - Informasi: $informasi
+                            """.trimIndent())
 
-                            Log.d(
-                                "cekcekquest7",
-                                "User ID: $userId, Akurasi: $akurasi, $answers, $condition, $currentDateTime, $imageFile"
-                            )
+
                             diagnosisViewModel.store(
-                                imageFile,
                                 userId,
                                 currentDateTime,
+                                imageFile,
                                 answers,
-                                condition,
                                 diagnosisResult,
+                                condition,
                                 akurasi.toDouble(),
                                 informasi
                             ).observe(this@Quest7Activity) { result ->
@@ -140,22 +154,49 @@ class Quest7Activity : AppCompatActivity() {
                                     }
                                     is Result.Success -> {
                                         binding.progressBar.visibility = View.GONE
-                                        val intent = Intent(this@Quest7Activity, DiagnosisActivity::class.java).apply {
-                                            putIntegerArrayListExtra("answers", answers)
-                                            putExtra("imageUriQuest", imageUriQuest.toString())
-                                            putExtra("label", label)
-                                            putExtra("confidence", confidence)
-                                            putExtra("diagnosisResult", diagnosisResult)
-                                            putExtra("accuracy", confidenceResult)
-                                            putExtra("dateTime", currentDateTime)
+                                        if (result.data.status != "success") {
+                                            Log.d("cekcekquest7","Terjadi kesalahan sukses: ${result.data.message}")
+                                            Log.e("cekcekquest7", """
+                                                Error Details:
+                                                - Image Path: ${imageFile.path}
+                                                - User ID: $userId
+                                                - Current DateTime: $currentDateTime
+                                                - Answers: ${answers.joinToString(", ")}
+                                                - Condition: $condition
+                                                - Diagnosis Result: $diagnosisResult
+                                                - Accuracy: $akurasi
+                                                - Informasi: $informasi
+                                            """.trimIndent())
+                                            Toast.makeText(this@Quest7Activity, result.data.message, Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            val intent = Intent(this@Quest7Activity, DiagnosisActivity::class.java).apply {
+                                                putIntegerArrayListExtra("answers", answers)
+                                                putExtra("imageUriQuest", imageUriQuest.toString())
+                                                putExtra("label", label)
+                                                putExtra("confidence", confidence)
+                                                putExtra("diagnosisResult", diagnosisResult)
+                                                putExtra("accuracy", confidenceResult)
+                                                putExtra("dateTime", currentDateTime)
+                                            }
+                                            Log.d("cekcekquest7","berhasillll")
+                                            Toast.makeText(this@Quest7Activity, "Diagnosis berhasil disimpan!", Toast.LENGTH_SHORT).show()
+                                            startActivity(intent)
                                         }
-                                        Log.d("cekcekquest7","berhasillll")
-                                        Toast.makeText(this@Quest7Activity, "Diagnosis berhasil disimpan!", Toast.LENGTH_SHORT).show()
-                                        startActivity(intent)
                                     }
                                     is Result.Error -> {
                                         binding.progressBar.visibility = View.GONE
                                         Log.d("cekcekquest7","Terjadi kesalahan: ${result.error}")
+                                        Log.e("cekcekquest7", """
+                                        Error Details Bawah:
+                                        - Image Path: ${imageFile.path}
+                                        - User ID: $userId
+                                        - Current DateTime: $currentDateTime
+                                        - Answers: ${answers.joinToString(", ")}
+                                        - Condition: $condition
+                                        - Diagnosis Result: $diagnosisResult
+                                        - Accuracy: $akurasi
+                                        - Informasi: $informasi
+                                    """.trimIndent())
                                         Toast.makeText(this@Quest7Activity, "Terjadi kesalahan: ${result.error}", Toast.LENGTH_LONG).show()
                                     }
                                 }
@@ -165,6 +206,7 @@ class Quest7Activity : AppCompatActivity() {
                 }
             }
         }
+
 
 
         binding.backButton.setOnClickListener {

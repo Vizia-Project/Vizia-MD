@@ -132,7 +132,6 @@ class NewsFragment : Fragment() {
                 binding.pgError.visibility = View.VISIBLE
                 binding.contentGroup.visibility = View.GONE
                 binding.rvNews.visibility = View.GONE
-                binding.tvEventSub.visibility = View.GONE
                 binding.tvEvent.visibility = View.GONE
                 showError("No internet connection")
             } else {

@@ -82,6 +82,7 @@ class ScanFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
     @RequiresApi(Build.VERSION_CODES.P)
     private fun analyzeImage() {
         val currentImageUri = viewModel.currentImageUri.value
+        Log.d("cekcekscan", "current image uri $currentImageUri")
         if (currentImageUri != null) {
             binding.progressBar.visibility = View.VISIBLE
             imageClassifierHelper.classifyStaticImage(currentImageUri)
