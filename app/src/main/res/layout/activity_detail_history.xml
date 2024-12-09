@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.history.DetailHistoryActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/pink"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/viziaputih" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Hasil Analisis Mata"
+                android:textColor="@color/textColor"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="end"
+                android:text="@string/text"
+                android:paddingHorizontal="6dp"
+                android:textColor="@color/textColor"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@+id/subtitle"
+                app:layout_constraintEnd_toEndOf="@+id/layoutImage"
+                app:layout_constraintStart_toEndOf="@id/title"
+                app:layout_constraintTop_toTopOf="@+id/title" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gambar Mata :"
+                android:textStyle="bold|italic"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/layoutImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subtitle"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/imagePlaceholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="16dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_image_placeholder" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/kondisi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kondisi Mata :"
+                android:textStyle="bold|italic"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutImage" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/layoutQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/kondisi"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8dp">
+
+                    <TextView
+                        android:id="@+id/kondisii"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="Kondisi"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:layout_marginHorizontal="16dp"
+                        android:textColor="@color/textColor"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/jawab"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:text="Hasil"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/kondisii"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/case1"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="1. Mata kurang tidur"
+                        android:layout_marginTop="4dp"
+                        android:textSize="14sp"
+                        android:layout_marginHorizontal="16dp"
+                        android:textColor="@color/textColor"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/kondisii"/>
+
+                    <TextView
+                        android:id="@+id/tv_case1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="@string/text"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/case1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/case1" />
+
+                    <TextView
+                        android:id="@+id/case2"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="2. Mata terasa gatal"
+                        android:textSize="14sp"
+                        android:layout_marginHorizontal="16dp"
+                        android:textColor="@color/textColor"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/case1"/>
+                    <TextView
+                        android:id="@+id/tv_case2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="@string/text"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/case2"
+                        app:layout_constraintTop_toTopOf="@+id/case2" />
+
+                    <TextView
+                        android:id="@+id/case3"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="3. Mata terasa kering"
+                        android:textSize="14sp"
+                        android:layout_marginHorizontal="16dp"
+                        android:textColor="@color/textColor"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/case2"/>
+                    <TextView
+                        android:id="@+id/tv_case3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="@string/text"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/case3"
+                        app:layout_constraintTop_toTopOf="@+id/case3" />
+
+                    <TextView
+                        android:id="@+id/case4"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="4. Mata sensitif terhadap cahaya"
+                        android:textSize="14sp"
+                        android:layout_marginHorizontal="16dp"
+                        android:textColor="@color/textColor"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/case3"/>
+                    <TextView
+                        android:id="@+id/tv_case4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="@string/text"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/case4"
+                        app:layout_constraintTop_toTopOf="@+id/case4" />
+
+                    <TextView
+                        android:id="@+id/case5"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="5. Mata terasa terbakar"
+                        android:textSize="14sp"
+                        android:layout_marginHorizontal="16dp"
+                        android:textColor="@color/textColor"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/case4"/>
+                    <TextView
+                        android:id="@+id/tv_case5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="@string/text"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/case5"
+                        app:layout_constraintTop_toTopOf="@+id/case5" />
+
+                    <TextView
+                        android:id="@+id/case6"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="6. Mata berair"
+                        android:textSize="14sp"
+                        android:layout_marginHorizontal="16dp"
+                        android:textColor="@color/textColor"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/case5"/>
+                    <TextView
+                        android:id="@+id/tv_case6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="@string/text"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/case6"
+                        app:layout_constraintTop_toTopOf="@+id/case6" />
+
+                    <TextView
+                        android:id="@+id/case7"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="7. Penglihatan menjadi kabur"
+                        android:textSize="14sp"
+                        android:layout_marginHorizontal="16dp"
+                        android:textColor="@color/textColor"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/case6"/>
+                    <TextView
+                        android:id="@+id/tv_case7"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="@string/text"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/case7"
+                        app:layout_constraintTop_toTopOf="@+id/case7" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/hasil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hasil Analisis :"
+                android:textStyle="bold|italic"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutQuestion" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/layoutHasill"
+                android:layout_width="150dp"
+                android:layout_height="0dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/layoutHasi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/layoutHasil"
+                app:layout_constraintTop_toTopOf="@+id/layoutHasil">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="8dp">
+
+                    <!-- Example Case Text -->
+                    <TextView
+                        android:id="@+id/akurasi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="Akurasi"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_akurasi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="@string/text"
+                        android:textColor="@color/textColor"
+                        android:textSize="18sp"
+                        android:textStyle="italic"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/akurasi" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/layoutHasil"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/layoutHasill"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hasil">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8dp">
+
+                    <!-- Example Case Text -->
+                    <TextView
+                        android:id="@+id/bermasalah"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="Mata Bermasalah"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_masalah"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="@string/text"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/bermasalah" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/layoutHasi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/layoutHasill"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutHasil">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8dp">
+
+                    <!-- Example Case Text -->
+                    <TextView
+                        android:id="@+id/indikasi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:gravity="center"
+                        android:text="Indikasi Mata"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_indikasi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="@string/text"
+                        android:textColor="@color/textColor"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/indikasi" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/keterangan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Keterangan"
+                android:textStyle="bold|italic"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutHasi" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/layoutKeterangan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/keterangan"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8dp">
+
+                    <!-- Example Case Text -->
+                    <TextView
+                        android:id="@+id/tv_keterangan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text"
+                        android:textSize="14sp"
+                        android:layout_marginHorizontal="16dp"
+                        android:textColor="@color/textColor"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Simpan Hasil"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/layoutKeterangan"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

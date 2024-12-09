@@ -3,6 +3,7 @@ package com.capstone.viziaproject.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import com.capstone.viziaproject.data.response.DetailHistoryResponse
 import com.capstone.viziaproject.data.response.GetHistoryResponse
 import com.capstone.viziaproject.data.response.NewsResponse
 import com.capstone.viziaproject.data.response.StoreHistoryResponse
@@ -10,8 +11,10 @@ import com.capstone.viziaproject.data.retrofit.ApiService
 import com.capstone.viziaproject.helper.Result
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
 import java.io.File
 
@@ -35,25 +38,33 @@ class PredictRepository(private val apiService: ApiService) {
         )
         // Prepare other fields as RequestBody
 //        val imageRequest = image.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-//        val userIdRequest = userId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-//        val dateRequest = date.toRequestBody("text/plain".toMediaTypeOrNull())
-//        val questionResultRequest = questionResult.toString().toRequestBody("application/json".toMediaTypeOrNull())
-//        val infectionStatusRequest = infectionStatus.toRequestBody("text/plain".toMediaTypeOrNull())
-//        val predictionResultRequest = predictionResult.toRequestBody("text/plain".toMediaTypeOrNull())
-//        val accuracyRequest = accuracy.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-//        val informationRequest = information.toRequestBody("text/html".toMediaTypeOrNull())
+        val userIdRequest = userId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val dateRequest = date.toRequestBody("text/plain".toMediaTypeOrNull())
+        val questionResultRequest = questionResult.toString().toRequestBody("application/json".toMediaTypeOrNull())
+        val infectionStatusRequest = infectionStatus.toRequestBody("text/plain".toMediaTypeOrNull())
+        val predictionResultRequest = predictionResult.toRequestBody("text/plain".toMediaTypeOrNull())
+        val accuracyRequest = accuracy.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val informationRequest = information.toRequestBody("text/html".toMediaTypeOrNull())
 
         try {
             val response = apiService.storeHistory(
-                userId,
-                date,
-//                multipartBody,
-                multipartBody.toString(),
-                questionResult,
-                infectionStatus,
-                predictionResult,
-                accuracy,
-                information
+//                userId,
+//                date,
+////                multipartBody,
+//                image,
+//                questionResult,
+//                infectionStatus,
+//                predictionResult,
+//                accuracy,
+//                information
+                userIdRequest,
+                dateRequest,
+                multipartBody,
+                questionResultRequest,
+                infectionStatusRequest,
+                predictionResultRequest,
+                accuracyRequest,
+                informationRequest
             )
             Log.d("cekcekAPIResponse", "Response: ${response}")
             emit(Result.Success(response))
@@ -72,36 +83,8 @@ class PredictRepository(private val apiService: ApiService) {
         }
     }
 
-    fun adds(
-        image: String,
-        userId: Int,
-        date: String,
-        questionResult: List<Int>,
-        infectionStatus: String,
-        predictionResult: String,
-        accuracy: Double,
-        information: String
-    ): LiveData<Result<StoreHistoryResponse>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.storeHistoryy(
-                image,
-                userId,
-                date,
-                questionResult,
-                infectionStatus,
-                predictionResult,
-                accuracy,
-                information
-            )
-            emit(Result.Success(response))
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorMessage = errorBody ?: "Kesalahan tidak diketahui"
-            emit(Result.Error(errorMessage))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message ?: "Kesalahan tidak terduga"))
-        }
+    suspend fun getDetailStory(id: Int): DetailHistoryResponse {
+        return apiService.getDetailHistory(id)
     }
 
     suspend fun getDataHistory(userId: Int): LiveData<Result<GetHistoryResponse>> = liveData {

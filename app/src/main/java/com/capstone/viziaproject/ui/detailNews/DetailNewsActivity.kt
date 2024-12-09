@@ -97,18 +97,18 @@ class DetailNewsActivity : AppCompatActivity() {
             binding.pgError.visibility = if (isLoading) View.GONE else View.GONE
         }
 
-        viewModel.error.observe(this) { errorMessage ->
-            errorMessage?.let { showError(it) }
-        }
+//        viewModel.error.observe(this) { errorMessage ->
+//            errorMessage?.let { showError(it) }
+//        }
 
     }
 
 
-    private fun showError(message: String) {
-        if (!isToastShown) {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-            isToastShown = true
-            viewModel.clearError()
-        }
-    }
+//    private fun showError(message: String) {
+//        if (!isToastShown) {
+//            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//            isToastShown = true
+//            viewModel.clearError()
+//        }
+//    }
 }

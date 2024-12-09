@@ -33,7 +33,6 @@ class ScanViewModel(private val userRepository: UserRepository, private val pred
         _currentImageUri.value = uri
     }
 
-
     fun store(
         userId: Int,
         date: String,

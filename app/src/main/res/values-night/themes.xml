@@ -2,14 +2,14 @@
     <!-- Base application theme. -->
     <style name="Theme.ViziaProject" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-<!--        <item name="colorPrimary">@color/purple_200</item>-->
-<!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
-<!--        <item name="colorOnPrimary">@color/black</item>-->
-<!--        &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
-<!--        <item name="colorSecondary">@color/teal_200</item>-->
-<!--        <item name="colorSecondaryVariant">@color/teal_200</item>-->
-<!--        <item name="colorOnSecondary">@color/black</item>-->
-<!--        &lt;!&ndash; Status bar color. &ndash;&gt;-->
+        <!--        <item name="colorPrimary">@color/purple_200</item>-->
+        <!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
+        <!--        <item name="colorOnPrimary">@color/black</item>-->
+        <!--        &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
+        <!--        <item name="colorSecondary">@color/teal_200</item>-->
+        <!--        <item name="colorSecondaryVariant">@color/teal_200</item>-->
+        <!--        <item name="colorOnSecondary">@color/black</item>-->
+        <!--        &lt;!&ndash; Status bar color. &ndash;&gt;-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@color/md_theme_primary</item>
@@ -61,5 +61,10 @@
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
+    </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ViziaProject" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
 </resources>

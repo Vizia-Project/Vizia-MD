@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_scan, R.id.navigation_notifications
+                R.id.navigation_home, R.id.navigation_scan, R.id.navigation_save
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -55,8 +55,8 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_home -> {
                 navController.navigate(R.id.navigation_home)
             }
-            R.id.navigation_notifications -> {
-                navController.navigate(R.id.navigation_notifications)
+            R.id.navigation_save -> {
+                navController.navigate(R.id.navigation_save)
             }
             R.id.navigation_scan -> {
                 navController.navigate(R.id.navigation_scan)

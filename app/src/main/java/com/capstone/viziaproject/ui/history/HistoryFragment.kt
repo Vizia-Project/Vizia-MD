@@ -9,23 +9,24 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.capstone.viziaproject.data.response.DataItem
-import com.capstone.viziaproject.data.response.DataItemHistory
+import com.capstone.viziaproject.data.pref.UserPreference
+import com.capstone.viziaproject.data.pref.dataStore
+import com.capstone.viziaproject.data.response.DataHistoryDetail
 import com.capstone.viziaproject.databinding.FragmentHistoryBinding
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.ui.IntroActivity
-import com.capstone.viziaproject.ui.detailNews.DetailNewsActivity
-import com.capstone.viziaproject.ui.home.HomeAdapter
-import com.capstone.viziaproject.ui.scan.DiagnosisActivity
 import com.capstone.viziaproject.ui.scan.ScanViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class HistoryFragment : Fragment() {
     private val viewModel by viewModels<ScanViewModel> {
@@ -33,12 +34,15 @@ class HistoryFragment : Fragment() {
     }
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
-    private val adapter = HistoryAdapter()
+    private lateinit var adapter: HistoryAdapter
     private var isToastShown = false
+
+    private lateinit var userPreference: UserPreference
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun isInternetAvailable(): Boolean {
-        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork ?: return false
         val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
         return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
@@ -49,48 +53,42 @@ class HistoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("cekcek", "onCreateView called")
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        userPreference = UserPreference.getInstance(requireContext().dataStore)
         return binding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getSession().observe(viewLifecycleOwner) { user ->
-            Log.d("cekcek", "User session: token=${user.token}, isLogin=${user.isLogin}")
+
+        lifecycleScope.launch {
+            val user = userPreference.getSession().first()
             if (user.token.isNotEmpty() && user.isLogin) {
-                Log.d("cekcek", "Formatted token: Bearer ${user.token}")
+                adapter = HistoryAdapter(userPreference)
                 viewModel.getHistoryUser(user.userId)
+                setupRecyclerView()
+                setupObservers()
+                binding.pgError.visibility = View.GONE
+                binding.contentGroup.visibility = View.VISIBLE
             } else {
                 startActivity(Intent(requireContext(), IntroActivity::class.java))
                 requireActivity().finish()
             }
         }
 
-        if (isInternetAvailable()) {
-            setupRecyclerView()
-            setupObservers()
-            binding.pgError.visibility = View.GONE
-            binding.contentGroup.visibility = View.VISIBLE
-        } else {
+        if (!isInternetAvailable()) {
             binding.pgError.visibility = View.VISIBLE
             binding.contentGroup.visibility = View.GONE
         }
     }
 
     private fun setupObservers() {
-        viewModel.getHistory.observe(viewLifecycleOwner) { stories ->
-            if (!stories.isNullOrEmpty()) {
-                adapter.submitList(stories)
+        viewModel.getHistory.observe(viewLifecycleOwner) { histories ->
+            if (!histories.isNullOrEmpty()) {
+                adapter.submitList(histories)
             }
         }
-
-//        viewModel.getSession().observe(viewLifecycleOwner) { user ->
-//            user?.let {
-//                viewModel.getHistoryUser(it.userId)
-//            }
-//        }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -108,25 +106,18 @@ class HistoryFragment : Fragment() {
         binding.rvHistory.layoutManager = LinearLayoutManager(requireContext())
         binding.rvHistory.adapter = adapter
         adapter.setOnItemClickCallback(object : HistoryAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: DataItemHistory) {
-                val intent = Intent(requireContext(), DiagnosisActivity::class.java)
-//                intent.putExtra(DiagnosisActivity.USER_ID, data.id)
+            override fun onItemClicked(detail: DataHistoryDetail) {
+                val intent = Intent(requireContext(), DetailHistoryActivity::class.java)
+                intent.putExtra(DetailHistoryActivity.EXTRA_HISTORY_DETAIL, detail)
                 startActivity(intent)
             }
         })
     }
 
-
     @RequiresApi(Build.VERSION_CODES.M)
-    @Suppress("DEPRECATION")
     override fun onResume() {
         super.onResume()
         context?.registerReceiver(connectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-
-        if (!isInternetAvailable()) {
-            binding.pgError.visibility = View.VISIBLE
-            binding.contentGroup.visibility = View.GONE
-        }
     }
 
     override fun onPause() {
@@ -140,21 +131,10 @@ class HistoryFragment : Fragment() {
             if (!isInternetAvailable()) {
                 binding.pgError.visibility = View.VISIBLE
                 binding.contentGroup.visibility = View.GONE
-                binding.rvHistory.visibility = View.GONE
-                binding.tvEvent.visibility = View.GONE
                 showError("No internet connection")
             } else {
                 binding.pgError.visibility = View.GONE
                 binding.contentGroup.visibility = View.VISIBLE
-
-                binding.rvHistory.visibility = View.VISIBLE
-                binding.tvEvent.visibility = View.VISIBLE
-
-                viewModel.getSession().observe(this@HistoryFragment) { user ->
-                    user?.let {
-                        viewModel.getHistoryUser(it.userId)
-                    }
-                }
             }
         }
     }
@@ -164,9 +144,10 @@ class HistoryFragment : Fragment() {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             isToastShown = true
         }
-        binding.contentGroup.visibility = View.GONE
-        binding.progressBar.visibility = View.GONE
-        binding.pgError.visibility = View.VISIBLE
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

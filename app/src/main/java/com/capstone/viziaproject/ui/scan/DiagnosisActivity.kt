@@ -158,9 +158,9 @@ class DiagnosisActivity : AppCompatActivity() {
                     true
                 }
 
-                R.id.navigation_notifications -> {
+                R.id.navigation_save -> {
                     showUnsavedDialog {
-                        navigateToMainActivity(R.id.navigation_notifications)
+                        navigateToMainActivity(R.id.navigation_save)
                     }
                     true
                 }

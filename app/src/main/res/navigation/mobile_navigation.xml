@@ -19,12 +19,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.capstone.viziaproject.ui.notifications.NotificationsFragment"
-        android:label=""
-        tools:layout="@layout/fragment_notifications" />
-
-    <fragment
         android:id="@+id/navigation_news"
         android:name="com.capstone.viziaproject.ui.news.NewsFragment"
         android:label=""
@@ -39,4 +33,9 @@
         android:name="com.capstone.viziaproject.ui.history.HistoryFragment"
         android:label=""
         tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/navigation_save"
+        android:name="com.capstone.viziaproject.ui.saveHistory.SaveFragment"
+        android:label=""
+        tools:layout="@layout/fragment_save" />
 </navigation>

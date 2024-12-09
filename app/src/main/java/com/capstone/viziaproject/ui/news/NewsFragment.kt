@@ -98,6 +98,7 @@ class NewsFragment : Fragment() {
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.tvEvent.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
 
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->

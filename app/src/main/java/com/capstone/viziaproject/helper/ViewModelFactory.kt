@@ -8,12 +8,12 @@ import com.capstone.viziaproject.data.repository.PredictRepository
 import com.capstone.viziaproject.data.repository.UserRepository
 import com.capstone.viziaproject.di.Injection
 import com.capstone.viziaproject.ui.detailNews.DetailNewsViewModel
+import com.capstone.viziaproject.ui.history.DetailHistoryViewModel
 import com.capstone.viziaproject.ui.home.HomeViewModel
 import com.capstone.viziaproject.ui.login.LoginViewModel
 import com.capstone.viziaproject.ui.main.MainViewModel
 import com.capstone.viziaproject.ui.news.NewsViewModel
 import com.capstone.viziaproject.ui.register.RegisterViewModel
-import com.capstone.viziaproject.ui.scan.DiagnosisViewModel
 import com.capstone.viziaproject.ui.scan.ScanViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -46,8 +46,8 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(ScanViewModel::class.java) -> {
                 ScanViewModel(userRepository, predictRepository) as T
             }
-            modelClass.isAssignableFrom(DiagnosisViewModel::class.java) -> {
-                DiagnosisViewModel(userRepository, predictRepository) as T
+            modelClass.isAssignableFrom(DetailHistoryViewModel::class.java) -> {
+                DetailHistoryViewModel(userRepository, predictRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

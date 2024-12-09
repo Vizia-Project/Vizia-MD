@@ -172,10 +172,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun showError(message: String) {
-        if (!isToastShown) {
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            isToastShown = true
-        }
+//        if (!isToastShown) {
+//            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+//            isToastShown = true
+//        }
         binding.contentGroup.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
         binding.pgError.visibility = View.VISIBLE

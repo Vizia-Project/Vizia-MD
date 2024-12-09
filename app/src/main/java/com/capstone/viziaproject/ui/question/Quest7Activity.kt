@@ -40,7 +40,7 @@ class Quest7Activity : AppCompatActivity() {
     private val position = 6
     private var answers: ArrayList<Int> = ArrayList()
 
-    private val adapter = HistoryAdapter()
+    private lateinit var adapter: HistoryAdapter
     private val diagnosisViewModel: ScanViewModel by viewModels {
         ViewModelFactory.getInstance(this)
     }
@@ -79,9 +79,11 @@ class Quest7Activity : AppCompatActivity() {
                         lifecycleScope.launch {
                             binding.progressBar.visibility = View.VISIBLE
 
-                            val imageFile = withContext(Dispatchers.IO) {
-                                uriToFile(uri, this@Quest7Activity).reduceFileImage()
-                            }
+//                            val imageFile = withContext(Dispatchers.IO) {
+//                                uriToFile(uri, this@Quest7Activity).reduceFileImage()
+//                            }
+
+                            val imageFile = uriToFile(uri, this@Quest7Activity)
 
                             Log.d("Image File", "showImage: ${imageFile.path}")
 
