@@ -58,8 +58,8 @@ interface ApiService {
     suspend fun storeHistory(
         @Part("user_id") userId: Int,
         @Part("date") date: String,
-        @Part("image") image: String,
-//        @Part image: MultipartBody.Part,
+//        @Part("image") image: String,
+        @Part image: MultipartBody.Part,
         @Part("question_result") questionResult: List<Int>,
         @Part("infection_status") infectionStatus: String,
         @Part("prediction_result") predictionResult: String,

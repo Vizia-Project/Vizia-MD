@@ -31,7 +31,7 @@ class PredictRepository(private val apiService: ApiService) {
 //        val file = File(image)
         val requestImageFile = image.asRequestBody("image/jpeg".toMediaType())
         val multipartBody = MultipartBody.Part.createFormData(
-            "photo", image.name, requestImageFile
+            "image", image.name, requestImageFile
         )
         // Prepare other fields as RequestBody
 //        val imageRequest = image.toString().toRequestBody("text/plain".toMediaTypeOrNull())
@@ -47,8 +47,8 @@ class PredictRepository(private val apiService: ApiService) {
             val response = apiService.storeHistory(
                 userId,
                 date,
-//                multipartBody,
-                multipartBody.toString(),
+                multipartBody,
+//                multipartBody.toString(),
                 questionResult,
                 infectionStatus,
                 predictionResult,
