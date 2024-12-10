@@ -34,37 +34,37 @@ class PredictRepository(private val apiService: ApiService) {
 //        val file = File(image)
         val requestImageFile = image.asRequestBody("image/jpeg".toMediaType())
         val multipartBody = MultipartBody.Part.createFormData(
-            "photo", image.name, requestImageFile
+            "image", image.name, requestImageFile
         )
         // Prepare other fields as RequestBody
 //        val imageRequest = image.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val userIdRequest = userId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val dateRequest = date.toRequestBody("text/plain".toMediaTypeOrNull())
-        val questionResultRequest = questionResult.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        val infectionStatusRequest = infectionStatus.toRequestBody("text/plain".toMediaTypeOrNull())
-        val predictionResultRequest = predictionResult.toRequestBody("text/plain".toMediaTypeOrNull())
-        val accuracyRequest = accuracy.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val informationRequest = information.toRequestBody("text/html".toMediaTypeOrNull())
+//        val userIdRequest = userId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+//        val dateRequest = date.toRequestBody("text/plain".toMediaTypeOrNull())
+//        val questionResultRequest = questionResult.toString().toRequestBody("application/json".toMediaTypeOrNull())
+//        val infectionStatusRequest = infectionStatus.toRequestBody("text/plain".toMediaTypeOrNull())
+//        val predictionResultRequest = predictionResult.toRequestBody("text/plain".toMediaTypeOrNull())
+//        val accuracyRequest = accuracy.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+//        val informationRequest = information.toRequestBody("text/html".toMediaTypeOrNull())
 
         try {
             val response = apiService.storeHistory(
-//                userId,
-//                date,
-////                multipartBody,
-//                image,
-//                questionResult,
-//                infectionStatus,
-//                predictionResult,
-//                accuracy,
-//                information
-                userIdRequest,
-                dateRequest,
+                userId,
+                date,
                 multipartBody,
-                questionResultRequest,
-                infectionStatusRequest,
-                predictionResultRequest,
-                accuracyRequest,
-                informationRequest
+//                image,
+                questionResult,
+                infectionStatus,
+                predictionResult,
+                accuracy,
+                information
+//                userIdRequest,
+//                dateRequest,
+//                multipartBody,
+//                questionResultRequest,
+//                infectionStatusRequest,
+//                predictionResultRequest,
+//                accuracyRequest,
+//                informationRequest
             )
             Log.d("cekcekAPIResponse", "Response: ${response}")
             emit(Result.Success(response))

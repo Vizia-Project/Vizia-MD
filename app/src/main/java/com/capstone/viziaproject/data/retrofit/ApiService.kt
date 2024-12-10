@@ -60,24 +60,24 @@ interface ApiService {
     @Multipart
     @POST("histories")
     suspend fun storeHistory(
-        @Part("user_id") userId: RequestBody,
-        @Part("date") date: RequestBody,
-//        @Part("image") image: RequestBody,
-        @Part image: MultipartBody.Part,
-        @Part("question_result") questionResult: RequestBody,
-        @Part("infection_status") infectionStatus: RequestBody,
-        @Part("prediction_result") predictionResult: RequestBody,
-        @Part("accuracy") accuracy: RequestBody,
-        @Part("information") information: RequestBody
-//        @Part("user_id") userId: Int,
-//        @Part("date") date: String,
+//        @Part("user_id") userId: RequestBody,
+//        @Part("date") date: RequestBody,
+////        @Part("image") image: RequestBody,
+//        @Part image: MultipartBody.Part,
+//        @Part("question_result") questionResult: RequestBody,
+//        @Part("infection_status") infectionStatus: RequestBody,
+//        @Part("prediction_result") predictionResult: RequestBody,
+//        @Part("accuracy") accuracy: RequestBody,
+//        @Part("information") information: RequestBody
+        @Part("user_id") userId: Int,
+        @Part("date") date: String,
 //        @Part("image") image: File,
-////        @Part image: MultipartBody.Part,
-//        @Part("question_result") questionResult: List<Int>,
-//        @Part("infection_status") infectionStatus: String,
-//        @Part("prediction_result") predictionResult: String,
-//        @Part("accuracy") accuracy: Double,
-//        @Part("information") information: String
+        @Part image: MultipartBody.Part,
+        @Part("question_result") questionResult: List<Int>,
+        @Part("infection_status") infectionStatus: String,
+        @Part("prediction_result") predictionResult: String,
+        @Part("accuracy") accuracy: Double,
+        @Part("information") information: String
     ): StoreHistoryResponse
 
 //    @GET("/histories?user_id={id}")

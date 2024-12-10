@@ -19,11 +19,14 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.capstone.viziaproject.R
 import com.capstone.viziaproject.databinding.FragmentScanBinding
 import com.capstone.viziaproject.helper.ImageClassifierHelper
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.helper.getImageUri
+import com.capstone.viziaproject.ui.main.MainActivity
 import com.capstone.viziaproject.ui.question.Quest1Activity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ScanFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
 
@@ -115,6 +118,8 @@ class ScanFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
             context = requireContext(),
             classifierListener = this
         )
+
+        (activity as? MainActivity)?.updateBottomNavigationStateForScanFragment()
     }
 
     override fun onResults(results: List<Pair<String, Float>>?, inferenceTime: Long) {
@@ -144,6 +149,19 @@ class ScanFragment : Fragment(), ImageClassifierHelper.ClassifierListener {
             putExtra("confidence", confidence)
         }
         startActivity(intent)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+        navView?.menu?.setGroupCheckable(0, true, true) // Aktifkan navigasi tab saat meninggalkan ScanFragment
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val navView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+        navView?.menu?.setGroupCheckable(0, true, true) // Pastikan navigasi tab tetap aktif
+        navView?.menu?.findItem(R.id.navigation_scan)?.isChecked = true // Tandai tab Scan jika diperlukan
     }
 
     override fun onDestroyView() {

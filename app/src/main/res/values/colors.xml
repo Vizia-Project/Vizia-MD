@@ -10,10 +10,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#B24FA9</color>
 
+    <color name="rippleColor">#03FF72</color>
+
     <color name="colorPrimary">#FF6200EE</color>
     <color name="gray">#B0B0B0</color>
 
     <color name="textColor">#FF000000</color>
+    <color name="textColorDark">#FFFFFFFF</color>
     <color name="md_theme_primary">#6D538B</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
     <color name="md_theme_primaryContainer">#EFDBFF</color>

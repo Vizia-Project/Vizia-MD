@@ -18,7 +18,7 @@ class DiagnosisActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDiagnosisBinding
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDiagnosisBinding.inflate(layoutInflater)
@@ -147,7 +147,7 @@ class DiagnosisActivity : AppCompatActivity() {
         }
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
-        bottomNavigationView.selectedItemId = R.id.navigation_scan
+//        bottomNavigationView.selectedItemId = -1
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -155,18 +155,31 @@ class DiagnosisActivity : AppCompatActivity() {
                     showUnsavedDialog {
                         navigateToMainActivity(R.id.navigation_home)
                     }
-                    true
+                    false
                 }
 
                 R.id.navigation_save -> {
                     showUnsavedDialog {
                         navigateToMainActivity(R.id.navigation_save)
                     }
-                    true
+                    false
                 }
-
-                R.id.navigation_scan -> true
                 else -> false
+            }
+        }
+
+        binding.navView.menu.setGroupCheckable(0, false, false)
+        binding.navView.menu.findItem(R.id.navigation_home).isChecked = false
+        binding.navView.menu.findItem(R.id.navigation_save).isChecked = false
+
+        binding.fabScan.setOnClickListener {
+            showUnsavedDialog {
+                val navViewScan = findViewById<BottomNavigationView>(R.id.nav_view)
+
+                navViewScan.menu.setGroupCheckable(0, false, false)
+                navViewScan.menu.findItem(R.id.navigation_home).isChecked = false
+                navViewScan.menu.findItem(R.id.navigation_save).isChecked = false
+                navigateToMainActivity(R.id.navigation_scan)
             }
         }
     }
@@ -186,5 +199,15 @@ class DiagnosisActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         finish()
+    }
+
+    @Deprecated("This method has been deprecated in favor of using the\n      {@link OnBackPressedDispatcher} via {@link #getOnBackPressedDispatcher()}.\n      The OnBackPressedDispatcher controls how back button events are dispatched\n      to one or more {@link OnBackPressedCallback} objects.")
+    override fun onBackPressed() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
+        for (i in 0 until bottomNavigationView.menu.size()) {
+            bottomNavigationView.menu.getItem(i).isChecked = false
+        }
+
+        super.onBackPressed()
     }
 }

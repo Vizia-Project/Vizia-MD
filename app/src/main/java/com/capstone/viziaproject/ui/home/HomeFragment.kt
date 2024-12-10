@@ -17,6 +17,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -194,7 +196,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 navController.navigate(R.id.navigation_news)
             }
             R.id.buttonScan -> {
-                bottomNavView.selectedItemId = R.id.navigation_scan
+                navController.navigate(R.id.navigation_scan)
+                bottomNavView.menu.setGroupCheckable(0, false, false)
+                bottomNavView.menu.findItem(R.id.navigation_home).isChecked = false
+                bottomNavView.menu.findItem(R.id.navigation_save).isChecked = false
             }
             R.id.buttonHistory -> {
                 navController.navigate(R.id.navigation_history)

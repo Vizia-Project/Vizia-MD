@@ -1,5 +1,6 @@
 package com.capstone.viziaproject.ui.detailNews
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -21,6 +22,8 @@ import com.capstone.viziaproject.R
 import com.capstone.viziaproject.databinding.ActivityDetailNewsBinding
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.ui.IntroActivity
+import com.capstone.viziaproject.ui.main.MainActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DetailNewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailNewsBinding
@@ -42,6 +45,7 @@ class DetailNewsActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("CutPasteId")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,8 +105,43 @@ class DetailNewsActivity : AppCompatActivity() {
 //            errorMessage?.let { showError(it) }
 //        }
 
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavigationView.selectedItemId = R.id.navigation_home
+
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    navigateToMainActivity(R.id.navigation_home)
+                    true
+                }
+
+                R.id.navigation_save -> {
+                    navigateToMainActivity(R.id.navigation_save)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        binding.fabScan.setOnClickListener {
+            val navViewScan = findViewById<BottomNavigationView>(R.id.nav_view)
+
+            navViewScan.menu.setGroupCheckable(0, false, false)
+            navViewScan.menu.findItem(R.id.navigation_home).isChecked = false
+            navViewScan.menu.findItem(R.id.navigation_save).isChecked = false
+            navigateToMainActivity(R.id.navigation_scan)
+        }
+
     }
 
+    private fun navigateToMainActivity(fragmentId: Int) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("FRAGMENT_ID", fragmentId)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        finish()
+    }
 
 //    private fun showError(message: String) {
 //        if (!isToastShown) {
@@ -111,4 +150,9 @@ class DetailNewsActivity : AppCompatActivity() {
 //            viewModel.clearError()
 //        }
 //    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 }
