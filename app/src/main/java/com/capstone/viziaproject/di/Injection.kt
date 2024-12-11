@@ -3,6 +3,7 @@ package com.capstone.viziaproject.di
 import android.content.Context
 import com.capstone.viziaproject.data.pref.UserPreference
 import com.capstone.viziaproject.data.pref.dataStore
+import com.capstone.viziaproject.data.repository.HistoryRepository
 import com.capstone.viziaproject.data.repository.NewsRepository
 import com.capstone.viziaproject.data.repository.PredictRepository
 import com.capstone.viziaproject.data.repository.UserRepository
@@ -23,6 +24,14 @@ object Injection {
         val pref = UserPreference.getInstance(context.dataStore)
         val apiService = ApiConfig.getApiService(pref)
         return PredictRepository.getInstance(apiService)
+    }
+//    fun provideHistoryRepository(context: Context): HistoryRepository {
+//        val pref = UserPreference.getInstance(context.dataStore)
+//        val apiService = ApiConfig.getApiService(pref)
+//        return HistoryRepository.getInstance(apiService)
+//    }
+    fun provideHistoryRepository(context: Context): HistoryRepository {
+        return HistoryRepository.getInstance(context)
     }
 
 }

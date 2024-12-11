@@ -109,6 +109,7 @@ class HistoryFragment : Fragment() {
             override fun onItemClicked(detail: DataHistoryDetail) {
                 val intent = Intent(requireContext(), DetailHistoryActivity::class.java)
                 intent.putExtra(DetailHistoryActivity.EXTRA_HISTORY_DETAIL, detail)
+                intent.putExtra("EVENT_ID", detail.id)
                 startActivity(intent)
             }
         })

@@ -3,6 +3,7 @@ package com.capstone.viziaproject.helper
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.capstone.viziaproject.data.repository.HistoryRepository
 import com.capstone.viziaproject.data.repository.NewsRepository
 import com.capstone.viziaproject.data.repository.PredictRepository
 import com.capstone.viziaproject.data.repository.UserRepository
@@ -20,7 +21,8 @@ import com.capstone.viziaproject.ui.scan.ScanViewModel
 class ViewModelFactory(
     private val userRepository: UserRepository,
     private val newsRepository: NewsRepository,
-    private val predictRepository: PredictRepository
+    private val predictRepository: PredictRepository,
+    private val historyRepository: HistoryRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -47,7 +49,7 @@ class ViewModelFactory(
                 ScanViewModel(userRepository, predictRepository) as T
             }
             modelClass.isAssignableFrom(DetailHistoryViewModel::class.java) -> {
-                DetailHistoryViewModel(userRepository, predictRepository) as T
+                DetailHistoryViewModel(userRepository, predictRepository, historyRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
@@ -63,7 +65,8 @@ class ViewModelFactory(
                 INSTANCE ?: ViewModelFactory(
                     Injection.provideUserRepository(context),
                     Injection.provideNewsRepository(context),
-                    Injection.providePredictRepository(context)
+                    Injection.providePredictRepository(context),
+                    Injection.provideHistoryRepository(context)
                 ).also {
                     INSTANCE = it
                 }

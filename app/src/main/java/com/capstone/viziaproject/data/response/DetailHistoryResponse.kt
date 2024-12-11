@@ -30,7 +30,7 @@ data class DataHistoryDetail(
 	val infectionStatus: String,
 
 	@field:SerializedName("question_result")
-	val questionResult: List<Int>,
+	val questionResult: List<Int?>,
 
 	@field:SerializedName("prediction_result")
 	val predictionResult: String,
