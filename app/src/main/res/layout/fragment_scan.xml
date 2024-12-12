@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:background="@color/md_theme_secondaryContainer"
         android:padding="8dp"
-        android:text="Perhatikan ketika upload gambar\n • Supporting line text lorem ipsum dolor sit amet.\n • Supporting line text lorem ipsum dolor sit amet.\n • Supporting line text lorem ipsum dolor sit amet."
+        android:text="Perhatikan ketika upload gambar\n • Ambil gambar tepat pada mata anda\n • Pastikan gambar jelas (tidak blur)\n • Pastikan gambar memiliki pencahayaan yang terang."
         android:textSize="12sp"
         android:textColor="@color/textColor"
         android:layout_marginTop="6dp"
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="330dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_image_placeholder"
+            android:src="@drawable/eyescan"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -110,12 +110,24 @@
         android:id="@+id/analyzeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Analysis Foto"
+        android:text="Analisis Foto"
         android:textColor="@color/white"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/kameraButton"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <ImageView
+        android:id="@+id/pg_error"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/nointernet"
+        android:foregroundGravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

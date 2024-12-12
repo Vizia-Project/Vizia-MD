@@ -22,13 +22,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="History Diagnosis"
+                android:text="Riwayat Diagnosis"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_history"
+                android:layout_marginTop="8dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -47,11 +48,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
-        <TextView
+        <ImageView
             android:id="@+id/pg_error"
-            android:text="Halaman Tidak dapat dimuat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/nointernet"
             android:layout_gravity="center"/>
 
     </LinearLayout>

@@ -4,7 +4,7 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:title="Beranda" />
 
     <item
         android:id="@+id/fab"
@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/navigation_save"
-        android:icon="@drawable/ic_save"
-        android:title="Saved" />
+        android:icon="@drawable/ic_saved"
+        android:title="Simpan Riwayat" />
 
 </menu>

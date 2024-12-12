@@ -89,11 +89,11 @@ class DetailHistoryActivity : AppCompatActivity() {
             viewModel.isSave.observe(this) { favorite ->
                 binding.saveButton.apply {
                     if (favorite != null) {
-                        text = "Saved"
+                        text = "Batalkan Simpan Riwayat"
                         setBackgroundColor(ContextCompat.getColor(this@DetailHistoryActivity, R.color.purple_move))
                         setTextColor(ContextCompat.getColor(this@DetailHistoryActivity, R.color.white))
                     }else {
-                        text = "Save"
+                        text = "Simpan Riwayat"
                         setBackgroundColor(ContextCompat.getColor(this@DetailHistoryActivity, R.color.purple_200))
                         setTextColor(ContextCompat.getColor(this@DetailHistoryActivity, R.color.black))
                     }
@@ -172,7 +172,7 @@ class DetailHistoryActivity : AppCompatActivity() {
 
             tvIndikasi.text = detail.predictionResult
             tvAkurasi.text = "${"%.2f".format(detail.accuracy)}%"
-            tvMasalah.text = detail.infectionStatus + "Eye"
+            tvMasalah.text = detail.infectionStatus
             tvKeterangan.text = HtmlCompat.fromHtml(detail.information, HtmlCompat.FROM_HTML_MODE_LEGACY)
             date.text = detail.date
 

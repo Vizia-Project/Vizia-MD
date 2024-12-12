@@ -40,22 +40,32 @@
                 android:importantForAccessibility="no"
                 android:scaleType="fitCenter"
                 android:visibility="visible"
-                tools:srcCompat="@tools:sample/backgrounds/scenic"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/line"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView
                 android:id="@+id/tv_name"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
+                android:layout_marginHorizontal="16dp"
+                android:textSize="24sp"
                 android:text="Event Name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/img_event" />
+                app:layout_constraintTop_toTopOf="parent" />
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="14dp"
+                android:background="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_name"  />
 
             <TextView
                 android:id="@+id/deskripsi"
@@ -67,7 +77,7 @@
                 android:text="content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_name" />
+                app:layout_constraintTop_toBottomOf="@id/img_event" />
 
 
             <ProgressBar
@@ -130,6 +140,8 @@
             android:id="@+id/fabScan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            app:elevation="10dp"
             android:src="@drawable/ic_scan"
             android:tint="@color/white"
             android:layout_gravity="center|bottom"

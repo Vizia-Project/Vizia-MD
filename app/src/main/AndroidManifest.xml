@@ -26,6 +26,9 @@
         android:theme="@style/Theme.ViziaProject"
         tools:targetApi="31">
         <activity
+            android:name=".ui.profil.ProfilActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.history.DetailHistoryActivity"
             android:exported="false"
             android:theme="@style/Theme.ViziaProject" />

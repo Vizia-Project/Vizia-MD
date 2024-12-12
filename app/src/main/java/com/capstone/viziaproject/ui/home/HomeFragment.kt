@@ -78,10 +78,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
             setupObservers()
             setupActions()
             binding.pgError.visibility = View.GONE
-            binding.contentGroup.visibility = View.VISIBLE
         } else {
             binding.pgError.visibility = View.VISIBLE
-            binding.contentGroup.visibility = View.GONE
         }
     }
 
@@ -146,7 +144,21 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         if (!isInternetAvailable()) {
             binding.pgError.visibility = View.VISIBLE
-            binding.contentGroup.visibility = View.GONE
+            binding.layoutQuick.visibility = View.GONE
+            binding.quickAccess.visibility = View.GONE
+            binding.imageView.visibility = View.INVISIBLE
+            binding.newsArtikel.visibility = View.GONE
+            binding.rvArtikel.visibility = View.GONE
+        }else {
+            binding.pgError.visibility = View.GONE
+            binding.rvArtikel.visibility = View.VISIBLE
+            binding.quickAccess.visibility = View.VISIBLE
+            binding.newsArtikel.visibility = View.VISIBLE
+            binding.layoutQuick.visibility = View.VISIBLE
+            binding.imageView.visibility = View.VISIBLE
+            viewModel.fetchEvents()
+            setupRecyclerView()
+            setupObservers()
         }
     }
 
@@ -160,25 +172,36 @@ class HomeFragment : Fragment(), View.OnClickListener {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (!isInternetAvailable()) {
                 binding.pgError.visibility = View.VISIBLE
-                binding.contentGroup.visibility = View.GONE
                 binding.rvArtikel.visibility = View.GONE
                 binding.quickAccess.visibility = View.GONE
                 binding.newsArtikel.visibility = View.GONE
                 binding.layoutQuick.visibility = View.GONE
-                binding.imageView.visibility = View.GONE
+                binding.imageView.visibility = View.INVISIBLE
                 showError("No internet connection")
             } else {
+                binding.pgError.visibility = View.GONE
+                binding.rvArtikel.visibility = View.VISIBLE
+                binding.quickAccess.visibility = View.VISIBLE
+                binding.newsArtikel.visibility = View.VISIBLE
+                binding.layoutQuick.visibility = View.VISIBLE
+                binding.imageView.visibility = View.VISIBLE
                 viewModel.fetchEvents()
+                setupRecyclerView()
+                setupObservers()
             }
         }
     }
 
     private fun showError(message: String) {
-//        if (!isToastShown) {
-//            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-//            isToastShown = true
-//        }
-        binding.contentGroup.visibility = View.GONE
+        if (!isToastShown) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            isToastShown = true
+        }
+        binding.rvArtikel.visibility = View.GONE
+        binding.quickAccess.visibility = View.GONE
+        binding.newsArtikel.visibility = View.GONE
+        binding.layoutQuick.visibility = View.GONE
+        binding.imageView.visibility = View.INVISIBLE
         binding.progressBar.visibility = View.GONE
         binding.pgError.visibility = View.VISIBLE
     }
