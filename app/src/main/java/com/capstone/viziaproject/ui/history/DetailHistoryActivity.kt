@@ -114,7 +114,6 @@ class DetailHistoryActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupObservers() {
         viewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE

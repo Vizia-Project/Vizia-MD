@@ -88,6 +88,11 @@ class SaveFragment : Fragment() {
                                 id = it?.id ?: -1,
                             )
                         })
+                        binding.imgData.visibility = View.GONE
+                    } else {
+                        binding.rvHistory.visibility = View.GONE
+                        binding.tvEvent.visibility = View.GONE
+                        binding.imgData.visibility = View.VISIBLE
                     }
                 }
             } else {

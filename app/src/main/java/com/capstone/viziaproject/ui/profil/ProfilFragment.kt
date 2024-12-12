@@ -104,18 +104,18 @@ class ProfilFragment : Fragment() {
             binding.imageView.visibility = View.GONE
             binding.imageView2.visibility = View.GONE
             binding.textView.visibility = View.GONE
-            binding.layoutSetting.visibility = View.GONE
-            binding.layoutQuestion.visibility = View.GONE
-            binding.setting.visibility = View.GONE
+            binding.layoutProfil.visibility = View.GONE
+//            binding.layoutQuestion.visibility = View.GONE
+//            binding.setting.visibility = View.GONE
             binding.logout.visibility = View.GONE
         } else {
             binding.progressBar.visibility = View.GONE
             binding.imageView.visibility = View.VISIBLE
             binding.imageView2.visibility = View.VISIBLE
             binding.textView.visibility = View.VISIBLE
-            binding.layoutSetting.visibility = View.VISIBLE
-            binding.layoutQuestion.visibility = View.VISIBLE
-            binding.setting.visibility = View.VISIBLE
+            binding.layoutProfil.visibility = View.VISIBLE
+//            binding.layoutQuestion.visibility = View.VISIBLE
+//            binding.setting.visibility = View.VISIBLE
             binding.logout.visibility = View.VISIBLE
         }
     }

@@ -19,7 +19,7 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-160dp"
+        android:layout_marginTop="-110dp"
         android:scaleType="centerCrop"
         android:rotation="10"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/layoutQuestion"
+        android:id="@+id/layoutProfil"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -153,65 +153,65 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:text="Pengaturan"
-        android:textColor="@color/textColor"
-        android:textSize="26sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/layoutQuestion" />
+<!--    <TextView-->
+<!--        android:id="@+id/setting"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:text="Pengaturan"-->
+<!--        android:textColor="@color/textColor"-->
+<!--        android:textSize="26sp"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/imageView"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/layoutQuestion" />-->
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/layoutSetting"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="16dp"
-        android:layout_marginHorizontal="16dp"
-        app:cardElevation="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/setting"
-        app:layout_constraintEnd_toEndOf="parent">
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/layoutSetting"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        app:cardCornerRadius="16dp"-->
+<!--        android:layout_marginHorizontal="16dp"-->
+<!--        app:cardElevation="8dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/setting"-->
+<!--        app:layout_constraintEnd_toEndOf="parent">-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="20dp"
-            android:paddingHorizontal="32dp">
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingVertical="20dp"-->
+<!--            android:paddingHorizontal="32dp">-->
 
-            <TextView
-                android:id="@+id/tv_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mode Gelap"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <TextView-->
+<!--                android:id="@+id/tv_dark"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Mode Gelap"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <TextView
-                android:id="@+id/tv_dark_sub"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Aktifkan Mode Gelap"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_dark" />
+<!--            <TextView-->
+<!--                android:id="@+id/tv_dark_sub"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Aktifkan Mode Gelap"-->
+<!--                android:textSize="12sp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tv_dark" />-->
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch_theme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_dark_sub"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_dark" />
+<!--            <com.google.android.material.switchmaterial.SwitchMaterial-->
+<!--                android:id="@+id/switch_theme"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/tv_dark_sub"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/tv_dark" />-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--    </androidx.cardview.widget.CardView>-->
 
     <Button
         android:id="@+id/logout"
@@ -223,7 +223,7 @@
         android:backgroundTint="@color/md_theme_errorContainer_mediumContrast"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutSetting" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutProfil" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
