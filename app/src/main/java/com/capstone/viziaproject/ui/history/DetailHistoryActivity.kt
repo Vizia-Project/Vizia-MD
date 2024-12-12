@@ -190,6 +190,7 @@ class DetailHistoryActivity : AppCompatActivity() {
 //        finish()
 //    }
 
+
     private fun showError(message: String) {
         if (!isToastShown) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

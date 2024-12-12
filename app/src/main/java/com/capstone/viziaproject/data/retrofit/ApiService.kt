@@ -7,6 +7,7 @@ import com.capstone.viziaproject.data.response.LoginResponse
 import com.capstone.viziaproject.data.response.NewsResponse
 import com.capstone.viziaproject.data.response.SignupResponse
 import com.capstone.viziaproject.data.response.StoreHistoryResponse
+import com.capstone.viziaproject.data.response.UserResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Field
@@ -94,6 +95,11 @@ interface ApiService {
     suspend fun getDetailHistory(
         @Path("id") id: Int,
     ): DetailHistoryResponse
+
+    @GET("/user/{id}")
+    suspend fun getUser(
+        @Path("id") id: Int,
+    ): UserResponse
 
 
 }

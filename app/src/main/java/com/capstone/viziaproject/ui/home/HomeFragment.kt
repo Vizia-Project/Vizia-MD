@@ -30,6 +30,7 @@ import com.capstone.viziaproject.ui.IntroActivity
 import com.capstone.viziaproject.ui.detailNews.DetailNewsActivity
 import com.capstone.viziaproject.ui.login.LoginActivity
 import com.capstone.viziaproject.ui.news.NewsFragment
+import com.capstone.viziaproject.ui.profil.ProfilFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment(), View.OnClickListener {
@@ -67,6 +68,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             Log.d("cekcek", "User session: token=${user.token}, isLogin=${user.isLogin}")
             if (user.token.isNotEmpty() && user.isLogin) {
                 Log.d("cekcek", "Formatted token: Bearer ${user.token}")
+                fragmentProfil(user.userId)
                 viewModel.getArticle()
             } else {
                 startActivity(Intent(requireContext(), IntroActivity::class.java))
@@ -80,6 +82,19 @@ class HomeFragment : Fragment(), View.OnClickListener {
             binding.pgError.visibility = View.GONE
         } else {
             binding.pgError.visibility = View.VISIBLE
+        }
+    }
+
+    private fun fragmentProfil(userId: Int) {
+        binding.buttonProfil.setOnClickListener {
+            val bundle = Bundle().apply {
+                putInt("USER_ID", userId)
+            }
+            val navController = findNavController()
+            val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+
+            // Pass the bundle with userId to the ProfilFragment
+            navController.navigate(R.id.navigation_profil, bundle)
         }
     }
 

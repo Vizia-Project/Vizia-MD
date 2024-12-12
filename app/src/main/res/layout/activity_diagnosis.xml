@@ -539,7 +539,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Simpan Hasil"
+                android:text="Lihat Riwayat Diagnosis"
                 android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/tv_keterangan"
                 app:layout_constraintStart_toStartOf="parent"

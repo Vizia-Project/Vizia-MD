@@ -3,11 +3,14 @@ package com.capstone.viziaproject.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import com.capstone.viziaproject.data.database.History
 import com.capstone.viziaproject.data.pref.UserModel
 import com.capstone.viziaproject.data.pref.UserPreference
+import com.capstone.viziaproject.data.response.DetailNewsResponse
 import com.capstone.viziaproject.data.response.LoginResponse
 import com.capstone.viziaproject.data.response.RegisterResponse
 import com.capstone.viziaproject.data.response.SignupResponse
+import com.capstone.viziaproject.data.response.UserResponse
 import com.capstone.viziaproject.data.retrofit.ApiService
 
 import com.capstone.viziaproject.helper.Result
@@ -58,6 +61,11 @@ class UserRepository private constructor(private val userPreference: UserPrefere
             emit(Result.Error(e.message.toString()))
         }
     }
+
+    suspend fun getUser(userId: Int): UserResponse {
+        return apiService.getUser(userId)
+    }
+
 
     fun getSession(): Flow<UserModel> {
         return userPreference.getSession()

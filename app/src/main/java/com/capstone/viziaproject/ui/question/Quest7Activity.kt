@@ -98,10 +98,13 @@ class Quest7Activity : AppCompatActivity() {
                             }
 
                             val (diagnosisResult, confidenceResult) = getDiagnosisResult(answers)
-                            val resultDisease = when (diagnosisResult) {
+                            var resultDisease = when (diagnosisResult) {
                                 "Mata Normal" -> "Label 0"
                                 "Mata Tidak Normal" -> label
-                                else -> "Unknown"
+                                else -> "Tidak Diketahui"
+                            }
+                            if (diagnosisResult === "Mata Tidak Normal" && resultDisease === "Label 0"){
+                                resultDisease = "Tidak Diketahui"
                             }
                             val condition = when (resultDisease) {
                                 "Label 0" -> "Mata Normal"
@@ -109,6 +112,7 @@ class Quest7Activity : AppCompatActivity() {
                                 "Label 2" -> "Mata Uveitis"
                                 else -> "Tidak Diketahui"
                             }
+
                             val akurasiString = if (diagnosisResult == "Mata Normal") {
                                 val adjustedAccuracy = 1.0f - confidenceResult
                                 "%.2f".format(adjustedAccuracy * 100)
@@ -117,6 +121,7 @@ class Quest7Activity : AppCompatActivity() {
                             }
                             val akurasi = akurasiString.replace(",", ".").toFloat()
                             val formattedAkurasi = "%.2f".format(akurasi)
+
 
                             val informasi = when (resultDisease) {
                                 "Label 0" -> """<div style="font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; padding: 0;"><h2 style=" color: #2c3e50; margin-bottom: 10px;">Mata Normal</h2><p style="text-align: justify; margin-bottom: 15px;">Mata Anda dalam kondisi normal. Menjaga kesehatan mata adalah langkah penting untuk memastikan penglihatan tetap optimal sepanjang hidup Anda. Berikut adalah beberapa tips yang dapat membantu Anda merawat mata agar tetap sehat.</p><ul style="text-align: justify; padding-left: 20px; list-style-type: square; margin-bottom: 20px;"><li style="margin-bottom: 10px;">Konsumsi makanan kaya vitamin A, C, dan E seperti wortel, sayuran hijau, dan buah-buahan segar.</li><li style="margin-bottom: 10px;">Minum cukup air untuk menjaga kelembapan mata dan mencegah mata kering.</li><li style="margin-bottom: 10px;">Jaga kebersihan area sekitar mata, terutama jika Anda menggunakan riasan mata.</li><li style="margin-bottom: 10px;">Hindari menatap layar komputer atau ponsel terlalu lama tanpa istirahat. Terapkan aturan 20-20-20: setiap 20 menit, alihkan pandangan ke objek yang berjarak 20 kaki selama 20 detik.</li><li style="margin-bottom: 10px;">Gunakan kacamata pelindung saat berada di bawah sinar matahari yang terik untuk melindungi mata dari sinar UV.</li><li style="margin-bottom: 10px;">Rutin memeriksakan mata ke dokter untuk memastikan kondisi mata tetap sehat.</li></ul></div>""".trimIndent()

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import com.capstone.viziaproject.R
+import com.capstone.viziaproject.data.response.DataHistoryDetail
 import com.capstone.viziaproject.databinding.ActivityDiagnosisBinding
 import com.capstone.viziaproject.helper.ViewModelFactory
 import com.capstone.viziaproject.ui.history.DetailHistoryViewModel
@@ -44,7 +45,7 @@ class DiagnosisActivity : AppCompatActivity() {
 
         binding.imagePlaceholder.setImageURI(imageUri)
         binding.date.text = dateTime
-        val resultDisease = when (diagnosisResult) {
+        var resultDisease = when (diagnosisResult) {
             "Mata Normal" -> {
                 "Label 0"
             }
@@ -54,6 +55,10 @@ class DiagnosisActivity : AppCompatActivity() {
             else -> {
                 "Tidak Diketahui"
             }
+        }
+
+        if (diagnosisResult == "Mata Tidak Normal" && resultDisease == "Label 0"){
+            resultDisease = "Tidak Diketahui"
         }
 
         val condition = when (resultDisease) {
@@ -70,6 +75,7 @@ class DiagnosisActivity : AppCompatActivity() {
         } else {
             "${"%.2f".format(accuracy * 100)}%"
         }
+        Log.d("cekcekdiag", "Condition: $condition, Accuracy: $accuracy, Confidence: $confidence")
 
         binding.tvIndikasi.text = condition
         Log.d("cekcekdiagnosis", "Akurasi pada gambar saja: ${"%.2f".format(confidence * 100)}%")
@@ -105,20 +111,19 @@ class DiagnosisActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    showUnsavedDialog {
-                        navigateToMainActivity(R.id.navigation_home)
-                    }
+                    navigateToMainActivity(R.id.navigation_home)
                     false
                 }
 
                 R.id.navigation_save -> {
-                    showUnsavedDialog {
-                        navigateToMainActivity(R.id.navigation_save)
-                    }
+                    navigateToMainActivity(R.id.navigation_save)
                     false
                 }
                 else -> false
             }
+        }
+        binding.saveButton.setOnClickListener {
+            navigateToMainActivity(R.id.navigation_history)
         }
 
         binding.navView.menu.setGroupCheckable(0, false, false)
@@ -126,14 +131,12 @@ class DiagnosisActivity : AppCompatActivity() {
         binding.navView.menu.findItem(R.id.navigation_save).isChecked = false
 
         binding.fabScan.setOnClickListener {
-            showUnsavedDialog {
-                val navViewScan = findViewById<BottomNavigationView>(R.id.nav_view)
+            val navViewScan = findViewById<BottomNavigationView>(R.id.nav_view)
 
-                navViewScan.menu.setGroupCheckable(0, false, false)
-                navViewScan.menu.findItem(R.id.navigation_home).isChecked = false
-                navViewScan.menu.findItem(R.id.navigation_save).isChecked = false
-                navigateToMainActivity(R.id.navigation_scan)
-            }
+            navViewScan.menu.setGroupCheckable(0, false, false)
+            navViewScan.menu.findItem(R.id.navigation_home).isChecked = false
+            navViewScan.menu.findItem(R.id.navigation_save).isChecked = false
+            navigateToMainActivity(R.id.navigation_scan)
         }
     }
 
@@ -159,13 +162,7 @@ class DiagnosisActivity : AppCompatActivity() {
                 " The OnBackPressedDispatcher controls how back button events are dispatched to one or more {@link OnBackPressedCallback} objects."
     )
     override fun onBackPressed() {
-        showUnsavedDialog {
-            val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
-            for (i in 0 until bottomNavigationView.menu.size()) {
-                bottomNavigationView.menu.getItem(i).isChecked = false
-            }
-
-            super.onBackPressed()
-        }
+        navigateToMainActivity(R.id.navigation_home)
+        super.onBackPressed()
     }
 }

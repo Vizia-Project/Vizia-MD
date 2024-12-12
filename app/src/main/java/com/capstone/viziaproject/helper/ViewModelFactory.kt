@@ -14,6 +14,7 @@ import com.capstone.viziaproject.ui.home.HomeViewModel
 import com.capstone.viziaproject.ui.login.LoginViewModel
 import com.capstone.viziaproject.ui.main.MainViewModel
 import com.capstone.viziaproject.ui.news.NewsViewModel
+import com.capstone.viziaproject.ui.profil.ProfilViewModel
 import com.capstone.viziaproject.ui.register.RegisterViewModel
 import com.capstone.viziaproject.ui.saveHistory.SaveViewModel
 import com.capstone.viziaproject.ui.scan.ScanViewModel
@@ -54,6 +55,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(SaveViewModel::class.java) -> {
                 SaveViewModel(userRepository, historyRepository) as T
+            }
+            modelClass.isAssignableFrom(ProfilViewModel::class.java) -> {
+                ProfilViewModel(userRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

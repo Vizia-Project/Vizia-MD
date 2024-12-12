@@ -38,4 +38,9 @@
         android:name="com.capstone.viziaproject.ui.saveHistory.SaveFragment"
         android:label=""
         tools:layout="@layout/fragment_save" />
+    <fragment
+        android:id="@+id/navigation_profil"
+        android:name="com.capstone.viziaproject.ui.profil.ProfilFragment"
+        android:label=""
+        tools:layout="@layout/fragment_profil" />
 </navigation>

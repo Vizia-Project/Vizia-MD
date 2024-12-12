@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginHorizontal="16dp"
+    android:layout_marginHorizontal="12dp"
     android:layout_marginVertical="10dp"
     card_view:cardCornerRadius="4dp">
 
@@ -18,12 +18,11 @@
 
         <ImageView
             android:id="@+id/img_event"
-            android:layout_width="0dp"
+            android:layout_width="158dp"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
             android:visibility="visible"
             tools:srcCompat="@tools:sample/backgrounds/scenic"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
@@ -31,24 +30,255 @@
         <TextView
             android:id="@+id/tv_name"
             style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="Article Name"
+            app:layout_constraintEnd_toEndOf="@id/img_event"
+            app:layout_constraintStart_toStartOf="@+id/img_event"
+            app:layout_constraintTop_toBottomOf="@+id/img_event" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:text="Date"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintBottom_toBottomOf="parent" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/black"
+            app:layout_constraintStart_toStartOf="@id/tv_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            card_view:layout_constraintEnd_toEndOf="@id/img_event"/>
+
+        <TextView
+            android:id="@+id/kondisii"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Kondisi"
+            android:textColor="@color/textColor"
+            android:layout_marginStart="16dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/jawab"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_event" />
+
+        <TextView
+            android:id="@+id/jawab"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Hasil"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/kondisii"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/case1"
+            android:layout_width="105dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Article Name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_event" />
+            android:text="Mata kurang tidur"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/kondisii"
+            app:layout_constraintTop_toBottomOf="@id/kondisii" />
+
+        <TextView
+            android:id="@+id/tv_case1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center"
+            android:text="@string/text"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/jawab"
+            app:layout_constraintStart_toStartOf="@+id/jawab"
+            app:layout_constraintTop_toTopOf="@id/case1"
+            card_view:layout_constraintBottom_toBottomOf="@+id/case1" />
+
+        <TextView
+            android:id="@+id/case2"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Mata terasa gatal"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/kondisii"
+            app:layout_constraintTop_toBottomOf="@id/case1" />
+
+        <TextView
+            android:id="@+id/tv_case2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center"
+            android:text="@string/text"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/jawab"
+            app:layout_constraintStart_toStartOf="@+id/jawab"
+            app:layout_constraintTop_toTopOf="@+id/case2"
+            card_view:layout_constraintBottom_toBottomOf="@+id/case2" />
+
+        <TextView
+            android:id="@+id/case3"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Mata terasa kering"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/kondisii"
+            app:layout_constraintTop_toBottomOf="@id/case2" />
+
+        <TextView
+            android:id="@+id/tv_case3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center"
+            android:text="@string/text"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/jawab"
+            app:layout_constraintStart_toStartOf="@+id/jawab"
+            app:layout_constraintTop_toTopOf="@+id/case3"
+            card_view:layout_constraintBottom_toBottomOf="@+id/case3" />
+
+        <TextView
+            android:id="@+id/case4"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:text="Mata sensitif terhadap cahaya"
+            android:textSize="12sp"
+            android:textColor="@color/textColor"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/kondisii"
+            app:layout_constraintTop_toBottomOf="@id/case3"/>
+
+        <TextView
+            android:id="@+id/tv_case4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center"
+            android:text="@string/text"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/jawab"
+            app:layout_constraintStart_toStartOf="@+id/jawab"
+            app:layout_constraintTop_toTopOf="@+id/case4"
+            card_view:layout_constraintBottom_toBottomOf="@+id/case4" />
+
+        <TextView
+            android:id="@+id/case5"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:text="Mata terasa terbakar"
+            android:textSize="12sp"
+            android:textColor="@color/textColor"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/kondisii"
+            app:layout_constraintTop_toBottomOf="@id/case4"/>
+
+        <TextView
+            android:id="@+id/tv_case5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center"
+            android:text="@string/text"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/jawab"
+            app:layout_constraintStart_toStartOf="@+id/jawab"
+            app:layout_constraintTop_toTopOf="@+id/case5"
+            card_view:layout_constraintBottom_toBottomOf="@+id/case5" />
+
+        <TextView
+            android:id="@+id/case6"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Mata berair"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/kondisii"
+            app:layout_constraintTop_toBottomOf="@id/case5" />
+
+        <TextView
+            android:id="@+id/tv_case6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center"
+            android:text="@string/text"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/jawab"
+            app:layout_constraintStart_toStartOf="@+id/jawab"
+            app:layout_constraintTop_toTopOf="@+id/case6"
+            card_view:layout_constraintBottom_toBottomOf="@+id/case6" />
+
+        <TextView
+            android:id="@+id/case7"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:text="Penglihatan menjadi kabur"
+            android:textSize="12sp"
+            android:textColor="@color/textColor"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/kondisii"
+            app:layout_constraintTop_toBottomOf="@id/case6"/>
+
+        <TextView
+            android:id="@+id/tv_case7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center"
+            android:text="@string/text"
+            android:textColor="@color/textColor"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/jawab"
+            app:layout_constraintStart_toStartOf="@+id/jawab"
+            app:layout_constraintTop_toTopOf="@+id/case7"
+            card_view:layout_constraintBottom_toBottomOf="@+id/case7" />
 
         <TextView
             android:id="@+id/tv_summary"
             style="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
             android:layout_marginTop="4dp"
-            android:text="Deskripsi"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/md_theme_tertiaryFixed"
+            android:elevation="20dp"
+            android:gravity="center"
+            android:text="Text"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_name" />
+            card_view:layout_constraintEnd_toEndOf="@+id/img_event"
+            card_view:layout_constraintTop_toBottomOf="@id/line" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -81,7 +81,7 @@ class HistoryAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(historyItem: DataItemHistory) {
             binding.tvName.text = historyItem.predictionResult
-            binding.tvSummary.text = "%.2f".format(historyItem.accuracy) +"%"
+            binding.tvSummary.text = "%.2f".format(historyItem.accuracy)
             Glide.with(itemView.context)
                 .load(historyItem.image)
                 .into(binding.imgEvent)
