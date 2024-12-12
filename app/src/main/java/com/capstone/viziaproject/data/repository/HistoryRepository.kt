@@ -23,7 +23,9 @@ class HistoryRepository private constructor(
         return historyDao.getAllHistory(userId)
     }
 
-    fun getHistoryEventById(id: Int): LiveData<History?> {
+    fun getHistoryEventById(id: Int): History? {
+        val history = historyDao.getHistoryById(id)
+        Log.d("cekcekhistory", "Fetched History: $history")
         return historyDao.getHistoryById(id)
     }
 

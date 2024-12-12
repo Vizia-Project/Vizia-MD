@@ -23,6 +23,6 @@ interface HistoryDao {
     fun getAllHistory(userId: Int): LiveData<List<History?>>
 
     @Query("SELECT * FROM histories WHERE id = :id LIMIT 1")
-    fun getHistoryById(id: Int): LiveData<History?>
+    fun getHistoryById(id: Int): History?
 
 }

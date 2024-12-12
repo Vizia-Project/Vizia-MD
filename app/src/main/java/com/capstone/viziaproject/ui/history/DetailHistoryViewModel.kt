@@ -19,6 +19,7 @@ class DetailHistoryViewModel(
     private val predictRepository: PredictRepository,
     private val historyRepository: HistoryRepository
 ) : ViewModel() {
+
     private val _isSave = MutableLiveData<History?>()
     val isSave: LiveData<History?> get() = _isSave
 
@@ -37,44 +38,33 @@ class DetailHistoryViewModel(
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
+
     fun getSession(): LiveData<UserModel> = userRepository.getSession().asLiveData()
 
-    fun saveHistory(history: History) {
-        viewModelScope.launch {
-            try {
-                historyRepository.insert(history)
-                _saveAddedStatus.value = true // Indicate success
-            } catch (e: Exception) {
-                _saveAddedStatus.value = false // Indicate failure
-                _error.value = e.message
-            }
-        }
-    }
     fun addEventToSave(userId: Int, history: DataHistoryDetail) {
+        val questionResults = (0..6).map { index ->
+            history.questionResult.getOrNull(index) ?: -1
+        }
+
+        val historyEntity = History(
+            id = history.id,
+            userId = userId,
+            date = history.date,
+            image = history.image,
+            infectionStatus = history.infectionStatus,
+            q1 = questionResults.getOrNull(0),
+            q2 = questionResults.getOrNull(1),
+            q3 = questionResults.getOrNull(2),
+            q4 = questionResults.getOrNull(3),
+            q5 = questionResults.getOrNull(4),
+            q6 = questionResults.getOrNull(5),
+            q7 = questionResults.getOrNull(6),
+            predictionResult = history.predictionResult,
+            accuracy = history.accuracy,
+            information = history.information
+        )
         viewModelScope.launch {
             try {
-                val questionResults = (0..6).map { index ->
-                    history.questionResult.getOrNull(index) ?: -1
-                }
-
-                val historyEntity = History(
-                    id = history.id,
-                    userId = userId,
-                    date = history.date,
-                    image = history.image,
-                    infectionStatus = history.infectionStatus,
-                    q1 = questionResults.getOrNull(0),
-                    q2 = questionResults.getOrNull(1),
-                    q3 = questionResults.getOrNull(2),
-                    q4 = questionResults.getOrNull(3),
-                    q5 = questionResults.getOrNull(4),
-                    q6 = questionResults.getOrNull(5),
-                    q7 = questionResults.getOrNull(6),
-                    predictionResult = history.predictionResult,
-                    accuracy = history.accuracy,
-                    information = history.information
-                )
-
                 historyRepository.insert(historyEntity)
                 _isSave.value = historyEntity
                 _saveAddedStatus.value = true
@@ -86,30 +76,29 @@ class DetailHistoryViewModel(
     }
 
     fun removeEventFromSave(userId: Int, history: DataHistoryDetail) {
+        val questionResults = (0..6).map { index ->
+            history.questionResult.getOrNull(index) ?: -1
+        }
+
+        val historyEntity = History(
+            id = history.id,
+            userId = userId,
+            date = history.date,
+            image = history.image,
+            infectionStatus = history.infectionStatus,
+            q1 = questionResults.getOrNull(0),
+            q2 = questionResults.getOrNull(1),
+            q3 = questionResults.getOrNull(2),
+            q4 = questionResults.getOrNull(3),
+            q5 = questionResults.getOrNull(4),
+            q6 = questionResults.getOrNull(5),
+            q7 = questionResults.getOrNull(6),
+            predictionResult = history.predictionResult,
+            accuracy = history.accuracy,
+            information = history.information
+        )
         viewModelScope.launch {
             try {
-                val questionResults = (0..6).map { index ->
-                    history.questionResult.getOrNull(index) ?: -1
-                }
-
-                val historyEntity = History(
-                    id = history.id,
-                    userId = userId,
-                    date = history.date,
-                    image = history.image,
-                    infectionStatus = history.infectionStatus,
-                    q1 = questionResults.getOrNull(0),
-                    q2 = questionResults.getOrNull(1),
-                    q3 = questionResults.getOrNull(2),
-                    q4 = questionResults.getOrNull(3),
-                    q5 = questionResults.getOrNull(4),
-                    q6 = questionResults.getOrNull(5),
-                    q7 = questionResults.getOrNull(6),
-                    predictionResult = history.predictionResult,
-                    accuracy = history.accuracy,
-                    information = history.information
-                )
-
                 historyRepository.delete(historyEntity)
                 _isSave.value = null
                 _saveRemovedStatus.value = true
@@ -121,12 +110,11 @@ class DetailHistoryViewModel(
     }
 
 
-    fun getEventDetailOrSave(userId: Int, id: Int) {
+    fun getEventDetailOrSave(id: Int) {
         viewModelScope.launch {
-            try {
-                val historyList = historyRepository.getAllHistories(userId).value
-                val history = historyList?.find { it?.id == id } // Corrected comparison
+            val history = historyRepository.getHistoryEventById(id)
                 if (history != null) {
+                    Log.d("cekcekhistory","historyy adaa")
                     _detailHistory.value = DataHistoryDetail(
                         date = history.date ?: "No Date",
                         image = history.image ?: "",
@@ -146,20 +134,22 @@ class DetailHistoryViewModel(
                         id = history.id,
                     )
                 } else {
+                    Log.d("cekcekhistory","historyy null")
                     getDetail(id)
                 }
-            } catch (e: Exception) {
-                _error.value = "Error fetching history: ${e.message}"
             }
-        }
+
     }
 
-
-
-    fun checkSave(id: Int) {
+    fun checkSave(eventId: Int) {
         viewModelScope.launch {
-            val saved = historyRepository.getHistoryEventById(id)
-            _isSave.value = saved.value
+            try {
+                val savedEvent = historyRepository.getHistoryEventById(eventId)
+                _isSave.value = savedEvent
+            } catch (e: Exception) {
+                _isSave.value = null
+                _error.value = e.localizedMessage ?: "An unexpected error occurred"
+            }
         }
     }
 
@@ -181,6 +171,8 @@ class DetailHistoryViewModel(
             }
         }
     }
+
+
 
     fun clearError() {
         _error.value = null

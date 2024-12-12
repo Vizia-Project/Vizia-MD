@@ -1,60 +1,122 @@
 package com.capstone.viziaproject.ui.saveHistory
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.capstone.viziaproject.R
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.capstone.viziaproject.data.pref.UserPreference
+import com.capstone.viziaproject.data.pref.dataStore
+import com.capstone.viziaproject.data.response.DataHistoryDetail
+import com.capstone.viziaproject.databinding.FragmentSaveBinding
+import com.capstone.viziaproject.helper.ViewModelFactory
+import com.capstone.viziaproject.ui.IntroActivity
+import com.capstone.viziaproject.ui.history.DetailHistoryActivity
+import com.capstone.viziaproject.ui.history.SaveAdapter
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SaveFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SaveFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentSaveBinding? = null
+    private val binding get() = _binding!!
+//    private lateinit var adapter: SaveAdapter
+    private lateinit var userPreference: UserPreference
+    private val adapter: SaveAdapter by lazy { SaveAdapter(userPreference) }
+    private var isToastShown = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private val viewModel: SaveViewModel by viewModels {
+        ViewModelFactory.getInstance(requireContext())
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_save, container, false)
+    ): View {
+        _binding = FragmentSaveBinding.inflate(inflater, container, false)
+        userPreference = UserPreference.getInstance(requireContext().dataStore)
+        return binding.root
+    }
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val layoutManager = LinearLayoutManager(context)
+        binding.rvHistory.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(context, layoutManager.orientation)
+        binding.rvHistory.addItemDecoration(itemDecoration)
+        binding.rvHistory.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : SaveAdapter.OnItemClickCallback {
+            override fun onItemClicked(detail: DataHistoryDetail) {
+                val intent = Intent(activity, DetailHistoryActivity::class.java)
+                intent.putExtra("EVENT_ID", detail.id)
+                intent.putExtra("EXTRA_HISTORY_DETAIL", detail)
+                startActivity(intent)
+            }
+        })
+        lifecycleScope.launch {
+            val user = userPreference.getSession().first()
+            if (user.token.isNotEmpty() && user.isLogin) {
+                viewModel.getHistoryUser(user.userId).observe(viewLifecycleOwner) { users ->
+                    if (!users.isNullOrEmpty()) {
+                        setEventData(users.map {
+                            DataHistoryDetail(
+                                date = it?.date ?: "No Date",
+                                image = it?.image ?: "",
+                                infectionStatus = it?.infectionStatus ?: "Unknown",
+                                questionResult = listOf(
+                                    it?.q1 ?: -1,
+                                    it?.q2 ?: -1,
+                                    it?.q3 ?: -1,
+                                    it?.q4 ?: -1,
+                                    it?.q5 ?: -1,
+                                    it?.q6 ?: -1,
+                                    it?.q7 ?: -1
+                                ),
+                                predictionResult = it?.predictionResult ?: "No Result",
+                                accuracy = it?.accuracy ?: 0.0,
+                                information = it?.information ?: "No Info",
+                                id = it?.id ?: -1,
+                            )
+                        })
+                    }
+                }
+            } else {
+                startActivity(Intent(requireContext(), IntroActivity::class.java))
+                requireActivity().finish()
+            }
+        }
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                showError(it)
+                viewModel.clearError()
+            }
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SaveFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SaveFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun showError(message: String) {
+        if (!isToastShown) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            isToastShown = true
+        }
+    }
+
+
+    private fun setEventData(events: List<DataHistoryDetail>) {
+        adapter.submitList(events)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

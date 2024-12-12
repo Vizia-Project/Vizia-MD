@@ -15,6 +15,7 @@ import com.capstone.viziaproject.ui.login.LoginViewModel
 import com.capstone.viziaproject.ui.main.MainViewModel
 import com.capstone.viziaproject.ui.news.NewsViewModel
 import com.capstone.viziaproject.ui.register.RegisterViewModel
+import com.capstone.viziaproject.ui.saveHistory.SaveViewModel
 import com.capstone.viziaproject.ui.scan.ScanViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -50,6 +51,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(DetailHistoryViewModel::class.java) -> {
                 DetailHistoryViewModel(userRepository, predictRepository, historyRepository) as T
+            }
+            modelClass.isAssignableFrom(SaveViewModel::class.java) -> {
+                SaveViewModel(userRepository, historyRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

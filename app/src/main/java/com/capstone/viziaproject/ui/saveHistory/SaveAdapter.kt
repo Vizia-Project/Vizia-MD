@@ -13,24 +13,25 @@ import com.capstone.viziaproject.data.response.DataItemHistory
 import com.capstone.viziaproject.data.response.DetailHistoryResponse
 import com.capstone.viziaproject.data.retrofit.ApiConfig
 import com.capstone.viziaproject.databinding.ItemArtikelBinding
+import com.capstone.viziaproject.databinding.ItemNewsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HistoryAdapter(
+class SaveAdapter(
     private val userPreference: UserPreference // Inject UserPreference for API calls
-) : ListAdapter<DataItemHistory, HistoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<DataHistoryDetail, SaveAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     private var onItemClickCallback: OnItemClickCallback? = null
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DataItemHistory>() {
-            override fun areItemsTheSame(oldItem: DataItemHistory, newItem: DataItemHistory): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DataHistoryDetail>() {
+            override fun areItemsTheSame(oldItem: DataHistoryDetail, newItem: DataHistoryDetail): Boolean {
                 return oldItem.id == newItem.id // Use unique identifier
             }
 
-            override fun areContentsTheSame(oldItem: DataItemHistory, newItem: DataItemHistory): Boolean {
+            override fun areContentsTheSame(oldItem: DataHistoryDetail, newItem: DataHistoryDetail): Boolean {
                 return oldItem == newItem
             }
         }
@@ -45,7 +46,7 @@ class HistoryAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = ItemArtikelBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
@@ -77,9 +78,9 @@ class HistoryAdapter(
         }
     }
 
-    class MyViewHolder(private val binding: ItemArtikelBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: ItemNewsBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(historyItem: DataItemHistory) {
+        fun bind(historyItem: DataHistoryDetail) {
             binding.tvName.text = historyItem.predictionResult
             binding.tvSummary.text = "%.2f".format(historyItem.accuracy) +"%"
             Glide.with(itemView.context)

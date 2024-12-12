@@ -30,7 +30,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp">
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/title"
@@ -528,48 +538,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
-
-        <!-- BottomAppBar -->
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/nav_bar"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:backgroundTint="@color/pink"
-            android:layout_gravity="bottom"
-            app:contentInsetEnd="0dp"
-            app:contentInsetStart="0dp"
-            app:fabCradleRoundedCornerRadius="40dp"
-            app:fabCradleMargin="38dp"
-            app:fabAnimationMode="slide"
-            app:fabAlignmentMode="center"
-            app:hideOnScroll="true">
-
-            <!-- BottomNavigationView -->
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/nav_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:backgroundTint="@android:color/transparent"
-                app:elevation="0dp"
-                app:itemIconTint="@color/icon_state_color_text"
-                app:itemTextColor="@color/icon_state_color_text"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/bottom_nav_menu" />
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
-        <!-- FloatingActionButton -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabScan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_scan"
-            android:tint="@color/white"
-            android:layout_gravity="center|bottom"
-            style="@style/CustomFab"
-            app:layout_anchor="@id/nav_bar"
-            app:layout_anchorGravity="center" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
