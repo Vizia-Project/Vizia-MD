@@ -103,7 +103,7 @@ class Quest7Activity : AppCompatActivity() {
                                 "Mata Tidak Normal" -> label
                                 else -> "Tidak Diketahui"
                             }
-                            if (diagnosisResult === "Mata Tidak Normal" && resultDisease === "Label 0"){
+                            if (diagnosisResult == "Mata Tidak Normal" && resultDisease == "Label 0"){
                                 resultDisease = "Tidak Diketahui"
                             }
                             val condition = when (resultDisease) {

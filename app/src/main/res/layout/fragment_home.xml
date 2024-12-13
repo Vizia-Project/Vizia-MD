@@ -46,7 +46,6 @@
                 android:layout_marginHorizontal="20dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="8dp"
-                android:backgroundTint="@color/md_theme_onPrimary"
                 app:layout_constraintStart_toStartOf="@+id/quickAccess"
                 app:layout_constraintTop_toBottomOf="@+id/quickAccess">
 
@@ -138,7 +137,32 @@
                             android:textColor="@color/textColor"
                             android:textSize="12sp" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center">
 
+                        <ImageButton
+                            android:id="@+id/buttonSaved"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/button_round"
+                            android:contentDescription="Saved"
+                            android:src="@drawable/ic_saved"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/logoutText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:gravity="center"
+                            android:text="Simpan Data"
+                            android:textColor="@color/textColor"
+                            android:textSize="12sp" />
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -166,32 +190,7 @@
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center">
 
-                        <ImageButton
-                            android:id="@+id/buttonKeluar"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:background="@drawable/button_round"
-                            android:contentDescription="Logout"
-                            android:src="@drawable/ic_logout"
-                            app:tint="@color/white" />
-
-                        <TextView
-                            android:id="@+id/logoutText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="1dp"
-                            android:gravity="center"
-                            android:text="Keluar"
-                            android:textColor="@color/textColor"
-                            android:textSize="12sp" />
-                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

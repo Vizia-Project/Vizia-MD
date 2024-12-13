@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Solusi Cerdas untuk Deteksi Dini Penyakit Mata, Demi Masa Depan Penglihatan yang Lebih Cerah"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_bias="0.0"

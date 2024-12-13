@@ -36,6 +36,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        application?.let {
+            pref = UserPreference.getInstance(it.dataStore)
+        }
+
+        viewModel.getSession().observe(this) { user ->
+            Log.d("cekcek", "User session: token=${user.token}, isLogin=${user.isLogin}")
+            if (user.token.isNotEmpty() && user.isLogin) {
+                Log.d("cekcek", "Formatted token: Bearer ${user.token}")
+//                val token = "Bearer ${user.token}"
+            } else {
+                startActivity(Intent(this, IntroActivity::class.java))
+                finish()
+            }
+        }
 
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
@@ -83,21 +97,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 binding.navView.menu.setGroupCheckable(0, true, true)
                 binding.navView.menu.findItem(destination.id)?.isChecked = true
-            }
-        }
-
-        application?.let {
-            pref = UserPreference.getInstance(it.dataStore)
-        }
-
-        viewModel.getSession().observe(this) { user ->
-            Log.d("cekcek", "User session: token=${user.token}, isLogin=${user.isLogin}")
-            if (user.token.isNotEmpty() && user.isLogin) {
-                Log.d("cekcek", "Formatted token: Bearer ${user.token}")
-//                val token = "Bearer ${user.token}"
-            } else {
-                startActivity(Intent(this, IntroActivity::class.java))
-                finish()
             }
         }
 

@@ -79,9 +79,7 @@
             android:layout_height="75dp"
             app:backgroundTint="@android:color/transparent"
             app:elevation="0dp"
-            app:itemIconTint="@color/icon_state_color_text"
-            app:itemTextColor="@color/icon_state_color_text"
-            app:labelVisibilityMode="labeled"
+            app:labelVisibilityMode="selected"
             app:menu="@menu/bottom_nav_menu"/>
     </com.google.android.material.bottomappbar.BottomAppBar>
 

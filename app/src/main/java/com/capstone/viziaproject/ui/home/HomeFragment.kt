@@ -131,23 +131,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setupActions() {
-        binding.buttonKeluar.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Konfirmasi")
-                .setMessage("Apakah Anda yakin ingin keluar?")
-                .setPositiveButton("Ya") { dialog, id ->
-                    viewModel.logout()
-                    startActivity(Intent(requireContext(), LoginActivity::class.java))
-                    requireActivity().finish()
-                }
-                .setNegativeButton("Tidak") { dialog, id ->
-                    dialog.dismiss()
-                }
-
-            val dialog = builder.create()
-            dialog.show()
-        }
         binding.buttonScan.setOnClickListener(this)
+        binding.buttonSaved.setOnClickListener(this)
         binding.buttonNews.setOnClickListener(this)
         binding.buttonHistory.setOnClickListener(this)
     }
@@ -232,6 +217,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         when (v?.id) {
             R.id.buttonNews -> {
                 navController.navigate(R.id.navigation_news)
+            }
+            R.id.buttonSaved -> {
+                navController.navigate(R.id.navigation_save)
             }
             R.id.buttonScan -> {
                 navController.navigate(R.id.navigation_scan)

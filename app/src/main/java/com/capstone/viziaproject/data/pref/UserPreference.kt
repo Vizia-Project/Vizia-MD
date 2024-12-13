@@ -1,6 +1,7 @@
 package com.capstone.viziaproject.data.pref
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -26,12 +27,12 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
 
     fun getSession(): Flow<UserModel> {
         return dataStore.data.map { preferences ->
-            UserModel(
-                preferences[EMAIL_KEY] ?: "",
-                preferences[TOKEN_KEY] ?: "",
-                preferences[IS_LOGIN_KEY] ?: false,
-                preferences[USER_ID_KEY] ?: -1,
-            )
+            val email = preferences[EMAIL_KEY] ?: ""
+            val token = preferences[TOKEN_KEY] ?: ""
+            val isLogin = preferences[IS_LOGIN_KEY] ?: false
+            val userId = preferences[USER_ID_KEY] ?: -1
+            Log.d("UserPreference", "Loaded data: email=$email, token=$token, isLogin=$isLogin, userId=$userId")
+            UserModel(email, token, isLogin, userId)
         }
     }
 

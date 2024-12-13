@@ -102,7 +102,6 @@ class ProfilFragment : Fragment() {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
             binding.imageView.visibility = View.GONE
-            binding.imageView2.visibility = View.GONE
             binding.textView.visibility = View.GONE
             binding.layoutProfil.visibility = View.GONE
 //            binding.layoutQuestion.visibility = View.GONE
@@ -111,7 +110,6 @@ class ProfilFragment : Fragment() {
         } else {
             binding.progressBar.visibility = View.GONE
             binding.imageView.visibility = View.VISIBLE
-            binding.imageView2.visibility = View.VISIBLE
             binding.textView.visibility = View.VISIBLE
             binding.layoutProfil.visibility = View.VISIBLE
 //            binding.layoutQuestion.visibility = View.VISIBLE
